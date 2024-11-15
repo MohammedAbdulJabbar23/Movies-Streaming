@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MovieApp.API</name>
+    </assembly>
+    <members>
+        <member name="M:MovieApp.API.Controllers.GenresController.GetAllGenre">
+            <summary>
+            Gets a list of all the Genres in the database
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.GenresController.GetGenreById(System.Guid)">
+            <summary>
+            Gets individual genre from database
+            </summary>
+            <param name="genreId">The id of the genre</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.GenresController.CreateGenre(MovieApp.API.Models.DTOs.GenreDTO)">
+            <summary>
+            Create a new genre
+            </summary>
+            <param name="genreDto">Genre Data transfer object</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.GenresController.UpdateGenre(System.Guid,MovieApp.API.Models.DTOs.GenreDTO)">
+            <summary>
+            Updates existing genre in the database by passing genre Id
+            </summary>
+            <param name="genreId">Genre id</param>
+            <param name="genreDto">Genre DTO</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.GenresController.PartialUpdateGenre(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{MovieApp.API.Models.DTOs.GenreDTO})">
+            <summary>
+            Updates only a part of the resource in the database
+            </summary>
+            <param name="genreId">Id parameter of the resource to be updated</param>
+            <param name="patchDoc">Json Patch Document to be updated</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.GenresController.DeleteGenre(System.Guid)">
+            <summary>
+            Delete genre from database by passing genre id
+            </summary>
+            <param name="genreId">Genre id</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.MoviesController.GetMovies">
+            <summary>
+            Gets a list of all the Movies in the database
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.MoviesController.GetMovieById(System.Guid)">
+            <summary>
+            Gets individual Movie from database
+            </summary>
+            <param name="movieId">The id of the Movie</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.MoviesController.GetGenreInMovie(System.Guid)">
+            <summary>
+            Get list of all genre in the movie
+            </summary>
+            <param name="genreId">Id of genre</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.MoviesController.GetSubGenreInMovie(System.Guid)">
+            <summary>
+            Get list of all subgenre in movie
+            </summary>
+            <param name="subGenreId">Id of genre</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.MoviesController.CreateMovie(MovieApp.API.Models.DTOs.MoviesCreateDTO)">
+            <summary>
+            Create a Movie
+            </summary>
+            <param name="moviesDto">Movie Data transfer object</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.MoviesController.UpdateMovie(System.Guid,MovieApp.API.Models.DTOs.MoviesUpdateDTO)">
+            <summary>
+            Updates existing movies in the database by passing movie Id
+            </summary>
+            <param name="moviesId">Movie id</param>
+            <param name="moviesDto">Movie DTO</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.MoviesController.PartialUpdateMovie(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{MovieApp.API.Models.DTOs.MoviesUpdateDTO})">
+            <summary>
+            Updates a part of the movie entity in the database
+            </summary>
+            <param name="movieId">Id parameter of the movie entity</param>
+            <param name="patchDoc">Json Patch Document of the movie entity</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.MoviesController.DeleteMovie(System.Guid)">
+            <summary>
+            Delete Movie from database by passing movie id
+            </summary>
+            <param name="moviesId">Movie id</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.SubGenresController.GetAllSubGenre">
+            <summary>
+            Gets a list of all the Sub genres in the database
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.SubGenresController.GetSubGenreById(System.Guid)">
+            <summary>
+            Gets individual Sub genre from database
+            </summary>
+            <param name="subGenreId">The id of the Sub genre</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.SubGenresController.GetGenreInSubGenre(System.Guid)">
+            <summary>
+            Get list of all genre in the subgenre
+            </summary>
+            <param name="genreId">Id of genre</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.SubGenresController.CreateSubGenre(MovieApp.API.Models.DTOs.SubGenreCreateDTO)">
+            <summary>
+            Create a Sub genre
+            </summary>
+            <param name="subGenreDto">SubGenre Data transfer object</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.SubGenresController.UpdateSubGenre(System.Guid,MovieApp.API.Models.DTOs.SubGenreUpdateDTO)">
+            <summary>
+            Updates existing Sub genre in the database by passing sub genre Id
+            </summary>
+            <param name="subGenreId">SubGenre id</param>
+            <param name="subGenreDto">SubGenre DTO</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.SubGenresController.PartialUpdateSubGenre(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{MovieApp.API.Models.DTOs.SubGenreUpdateDTO})">
+            <summary>
+            Updates only a part of the subgenre resource in the database
+            </summary>
+            <param name="subGenreId">Id parameter for the subgenre resource</param>
+            <param name="patchDoc">Json patch document for subgenre resource</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.SubGenresController.DeleteSubGenre(System.Guid)">
+            <summary>
+            Delete Sub genre from database by passing genre id
+            </summary>
+            <param name="subGenreId">SubGenre id</param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieApp.API.Controllers.SubGenresController.GetSubGenreInGenre(System.Guid)">
+            <summary>
+            Get all genres and subgenres
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MovieApp.API.Migrations.InitialMigrations">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.InitialMigrations.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.InitialMigrations.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.InitialMigrations.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:MovieApp.API.Migrations.snakeCase">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.snakeCase.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.snakeCase.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.snakeCase.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:MovieApp.API.Migrations.Password">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.Password.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.Password.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.Password.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
