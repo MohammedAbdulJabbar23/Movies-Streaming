@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MovieApp.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241115144514_Password")]
-    partial class Password
+    [Migration("20241115153648_Migrate")]
+    partial class Migrate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

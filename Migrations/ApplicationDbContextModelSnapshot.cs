@@ -67,8 +67,8 @@ namespace MovieApp.API.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.Property<byte[]>("Picture")
-                        .HasColumnType("bytea")
+                    b.Property<string>("Picture")
+                        .HasColumnType("text")
                         .HasColumnName("picture");
 
                     b.Property<int>("Rating")

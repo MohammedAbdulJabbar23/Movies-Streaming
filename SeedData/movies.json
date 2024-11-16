@@ -1,0 +1,44 @@
+{
+  "movies": [
+    {
+      "Name": "Avengers: Endgame",
+      "GenreName": "Action",
+      "SubGenreName": "Superhero",
+      "Rating": "BlockBuster",
+      "Audience": "FIFTEEN",
+      "Picture": "base64EncodedImageStringHere"
+    },
+    {
+      "Name": "The Notebook",
+      "GenreName": "Romance",
+      "SubGenreName": "Romantic Comedy",
+      "Rating": "Average",
+      "Audience": "PG",
+      "Picture": "base64EncodedImageStringHere"
+    },
+    {
+      "Name": "The Dark Knight",
+      "GenreName": "Action",
+      "SubGenreName": "Superhero",
+      "Rating": "BlockBuster",
+      "Audience": "FIFTEEN",
+      "Picture": "base64EncodedImageStringHere"
+    },
+    {
+      "Name": "The Godfather",
+      "GenreName": "Drama",
+      "SubGenreName": "Psychological Drama",
+      "Rating": "BlockBuster",
+      "Audience": "EIGHTEEN",
+      "Picture": "base64EncodedImageStringHere"
+    },
+    {
+      "Name": "The Lion King",
+      "GenreName": "Animation",
+      "SubGenreName": "CGI Animation",
+      "Rating": "Average",
+      "Audience": "U",
+      "Picture": "base64EncodedImageStringHere"
+    }
+  ]
+}

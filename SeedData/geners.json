@@ -1,0 +1,30 @@
+{
+  "genres": [
+    { "Name": "Action" },
+    { "Name": "Romance" },
+    { "Name": "Comedy" },
+    { "Name": "Drama" },
+    { "Name": "Fantasy" },
+    { "Name": "Horror" },
+    { "Name": "Documentary" },
+    { "Name": "Animation" }
+  ],
+  "subGenres": [
+    { "Name": "Superhero", "GenreName": "Action" },
+    { "Name": "Martial Arts", "GenreName": "Action" },
+    { "Name": "Romantic Comedy", "GenreName": "Romance" },
+    { "Name": "Historical Romance", "GenreName": "Romance" },
+    { "Name": "Slapstick", "GenreName": "Comedy" },
+    { "Name": "Dark Comedy", "GenreName": "Comedy" },
+    { "Name": "Family Drama", "GenreName": "Drama" },
+    { "Name": "Psychological Drama", "GenreName": "Drama" },
+    { "Name": "Medieval Fantasy", "GenreName": "Fantasy" },
+    { "Name": "Sword and Sorcery", "GenreName": "Fantasy" },
+    { "Name": "Zombie Horror", "GenreName": "Horror" },
+    { "Name": "Psychological Horror", "GenreName": "Horror" },
+    { "Name": "Nature Documentary", "GenreName": "Documentary" },
+    { "Name": "Cultural Documentary", "GenreName": "Documentary" },
+    { "Name": "Anime", "GenreName": "Animation" },
+    { "Name": "CGI Animation", "GenreName": "Animation" }
+  ]
+}

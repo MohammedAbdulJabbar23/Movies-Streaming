@@ -161,40 +161,28 @@
             <param name="Id"></param>
             <returns></returns>
         </member>
-        <member name="T:MovieApp.API.Migrations.InitialMigrations">
+        <member name="T:MovieApp.API.Migrations.Migrate">
             <inheritdoc />
         </member>
-        <member name="M:MovieApp.API.Migrations.InitialMigrations.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:MovieApp.API.Migrations.Migrate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:MovieApp.API.Migrations.InitialMigrations.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:MovieApp.API.Migrations.Migrate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:MovieApp.API.Migrations.InitialMigrations.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:MovieApp.API.Migrations.Migrate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
-        <member name="T:MovieApp.API.Migrations.snakeCase">
+        <member name="T:MovieApp.API.Migrations.ImageString">
             <inheritdoc />
         </member>
-        <member name="M:MovieApp.API.Migrations.snakeCase.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:MovieApp.API.Migrations.ImageString.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:MovieApp.API.Migrations.snakeCase.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:MovieApp.API.Migrations.ImageString.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:MovieApp.API.Migrations.snakeCase.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:MovieApp.API.Migrations.Password">
-            <inheritdoc />
-        </member>
-        <member name="M:MovieApp.API.Migrations.Password.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:MovieApp.API.Migrations.Password.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:MovieApp.API.Migrations.Password.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:MovieApp.API.Migrations.ImageString.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>
