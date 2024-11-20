@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Movie</title>
+</head>
+<body>
+    <h1>Create a New Movie</h1>
+
+    <form action="http://localhost:5000/api/v1/movies" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="name">Movie Name:</label>
+            <input type="text" id="name" name="Name" required>
+        </div>
+
+        <div>
+            <label for="picture">Picture URL:</label>
+            <input type="text" id="picture" name="Picture">
+        </div>
+
+        <div>
+            <label for="rating">Rating (Decimal):</label>
+            <input type="number" id="rating" name="Rating" step="0.1" required>
+        </div>
+
+        <div>
+            <label for="dateCreated">Date Created:</label>
+            <input type="date" id="dateCreated" name="DateCreated" required>
+        </div>
+
+        <div>
+            <label for="videoFile">Upload Video File:</label>
+            <input type="file" id="videoFile" name="VideoFile" required>
+        </div>
+<!-- 
+        <div>
+            <label for="audience">Audience Type:</label>
+            <select id="audience" name="Audience" required>
+                <option value="G">G</option>
+                <option value="PG">PG</option>
+                <option value="PG13">PG-13</option>
+                <option value="R">R</option>
+            </select>
+        </div> -->
+
+        <div>
+            <label for="genreId">Genre Id (Guid):</label>
+            <input type="text" id="genreId" name="GenreId" value="00000000-0000-0000-0000-000000000000" required>
+        </div>
+
+        <div>
+            <label for="subGenreId">Sub-Genre Id (Guid):</label>
+            <input type="text" id="subGenreId" name="SubGenreId" value="00000000-0000-0000-0000-000000000000" required>
+        </div>
+
+        <button type="submit">Create Movie</button>
+    </form>
+
+</body>
+</html>

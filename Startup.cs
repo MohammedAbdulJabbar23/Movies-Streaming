@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -73,9 +76,25 @@ builder.Services.AddAuthentication(x =>
         ValidateAudience = false
     };
 });
+builder.Services.Configure<FormOptions>(options =>
 
-builder.Services.AddControllers();
+{
 
+    options.ValueLengthLimit = int.MaxValue; // Limit on individual form values
+
+    options.MultipartBodyLengthLimit = long.MaxValue; // Limit on form body size
+
+    // options.MemoryBufferThreshold = int.MaxValue; // Buffering limit
+
+});
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.Limits.MaxRequestBodySize = 5L * 1024 * 1024 * 1024; // 5GB
+});
+builder.Services.Configure<IISServerOptions>(options =>
+{
+    options.MaxRequestBodySize = 5L * 1024 * 1024 * 1024; // 5GB
+});
 // Build the app
 var app = builder.Build();
 
@@ -85,7 +104,6 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
-app.UseHttpsRedirection();
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
@@ -102,10 +120,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.EnsureCreated();
-    SeedData.Initialize(scope.ServiceProvider, context);
-}
+// using (var scope = app.Services.CreateScope())
+// {
+//     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+//     context.Database.EnsureCreated();
+//     SeedData.Initialize(scope.ServiceProvider, context);
+// }
 app.Run();

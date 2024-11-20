@@ -13,10 +13,10 @@ namespace MovieApp.API.Models
         public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public DateTime DateCreated { get; set; }
+        public string DateCreated { get; set; }
         public string Picture { get; set; }
-        public enum RatingType { Poor, Average, BlockBuster}
-        public RatingType Rating { get; set; } 
+        public decimal Rating { get; set; } 
+        public string VideoFilePath { get; set; }
         [Required]
         public Guid GenreId { get; set; }
         [ForeignKey("GenreId")]

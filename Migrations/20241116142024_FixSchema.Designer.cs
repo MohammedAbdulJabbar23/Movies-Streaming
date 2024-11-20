@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieApp.API.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MovieApp.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241116142024_FixSchema")]
+    partial class FixSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,8 +57,8 @@ namespace MovieApp.API.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("audience");
 
-                    b.Property<string>("DateCreated")
-                        .HasColumnType("text")
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("date_created");
 
                     b.Property<Guid>("GenreId")
@@ -71,17 +74,13 @@ namespace MovieApp.API.Migrations
                         .HasColumnType("text")
                         .HasColumnName("picture");
 
-                    b.Property<decimal>("Rating")
-                        .HasColumnType("numeric")
+                    b.Property<int>("Rating")
+                        .HasColumnType("integer")
                         .HasColumnName("rating");
 
                     b.Property<Guid>("SubGenreId")
                         .HasColumnType("uuid")
                         .HasColumnName("sub_genre_id");
-
-                    b.Property<string>("VideoFilePath")
-                        .HasColumnType("text")
-                        .HasColumnName("video_file_path");
 
                     b.HasKey("Id");
 

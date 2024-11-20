@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -13,18 +14,21 @@ using MovieApp.API.Repository.IRepository;
 
 namespace MovieApp.API.Controllers
 {
+
     [Route("api/v{version:apiVersion}/Movies")]
     //[Route("api/[controller]")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class MoviesController : ControllerBase
     {
+        private readonly string _movieStoragePath;
         private readonly IMovieRepository _movieRepo;
         private readonly IMapper _mapper;
         public MoviesController(IMovieRepository movieRepo, IMapper mapper)
         {
             _movieRepo = movieRepo;
             _mapper = mapper;
+            _movieStoragePath = Directory.GetCurrentDirectory() + "/videos";
         }
 
         /// <summary>
@@ -56,7 +60,7 @@ namespace MovieApp.API.Controllers
         [ProducesResponseType(200, Type = typeof(List<MoviesDTO>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public IActionResult GetMovieById(Guid movieId)
         {
             var obj = _movieRepo.GetMovie(movieId);
@@ -126,34 +130,67 @@ namespace MovieApp.API.Controllers
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(List<MoviesDTO>))]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult CreateMovie([FromBody] MoviesCreateDTO moviesDto)
+        [RequestSizeLimit(50073741824)] // 1 GB limit
+        public IActionResult CreateMovie([FromForm] MoviesCreateDTO moviesDto)
         {
-            if (moviesDto is null)
+            if (moviesDto == null)
             {
                 return BadRequest(ModelState);
             }
 
-            if (_movieRepo.MovieExist(moviesDto.Name))
+            if (moviesDto.VideoFile == null || moviesDto.VideoFile.Length == 0)
             {
-                ModelState.AddModelError("", "SubGenre already exist!");
-                return StatusCode(404, ModelState);
-            }
-
-            if (!ModelState.IsValid)
-            {
+                ModelState.AddModelError("", "No movie file uploaded.");
                 return BadRequest(ModelState);
             }
 
-            var movieObj = _mapper.Map<MovieModel>(moviesDto);
-
-            if (!_movieRepo.CreateMovie(movieObj))
+            if (moviesDto.VideoFile.ContentType != "video/mp4")
             {
-                ModelState.AddModelError("", $"Something wrong occured when trying to save record {movieObj.Name}");
+                ModelState.AddModelError("", "Invalid file type. Only MP4 video files are allowed.");
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                // Generate a unique file name using Guid
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(moviesDto.VideoFile.FileName);
+
+                // Define the full file path
+                var filePath = Path.Combine(_movieStoragePath, uniqueFileName);
+
+                // Ensure the directory exists
+                if (!Directory.Exists(_movieStoragePath))
+                {
+                    Directory.CreateDirectory(_movieStoragePath);
+                }
+
+                // Save the movie file to the specified path
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    moviesDto.VideoFile.CopyTo(fileStream);
+                }
+
+                // Map the DTO to the model
+                var movieObj = _mapper.Map<MovieModel>(moviesDto);
+                movieObj.VideoFilePath = filePath; // Save the file path in the movie object
+
+                // Create the movie in the database
+                if (!_movieRepo.CreateMovie(movieObj))
+                {
+                    ModelState.AddModelError("", $"Something went wrong when trying to save the record {movieObj.Name}");
+                    return StatusCode(500, ModelState);
+                }
+
+                return CreatedAtRoute("GetMovieById", new { movieId = movieObj.Id }, movieObj);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error uploading the movie: {ex.Message}");
                 return StatusCode(500, ModelState);
             }
-            return CreatedAtRoute("GetMovieById", new { movieId = movieObj.Id }, movieObj);
         }
         /// <summary>
         /// Updates existing movies in the database by passing movie Id
@@ -237,5 +274,40 @@ namespace MovieApp.API.Controllers
             }
             return NoContent();
         }
+        [HttpGet("stream/{movieId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult StreamMovie(Guid movieId)
+        {
+            var movie = _movieRepo.GetMovie(movieId);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            var filePath = movie.VideoFilePath; // Assuming the movie file path is stored in the database
+
+            // Ensure the file exists before streaming
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+
+            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            var fileExtension = Path.GetExtension(filePath).ToLower();
+
+            // Determine the content type for the video file
+            string contentType = fileExtension switch
+            {
+                ".mp4" => "video/mp4",
+                ".webm" => "video/webm",
+                ".ogg" => "video/ogg",
+                _ => "application/octet-stream"
+            };
+
+            // Return a FileStreamResult for streaming
+            return File(fileStream, contentType, Path.GetFileName(filePath));
+        }
+
     }
 }

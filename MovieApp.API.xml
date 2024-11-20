@@ -185,5 +185,53 @@
         <member name="M:MovieApp.API.Migrations.ImageString.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:MovieApp.API.Migrations.FixSchema">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.FixSchema.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.FixSchema.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.FixSchema.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:MovieApp.API.Migrations.AddVideoURL">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.AddVideoURL.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.AddVideoURL.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.AddVideoURL.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:MovieApp.API.Migrations.FixRating">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.FixRating.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.FixRating.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.FixRating.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:MovieApp.API.Migrations.FixDate">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.FixDate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.FixDate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.FixDate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

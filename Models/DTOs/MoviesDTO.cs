@@ -12,9 +12,10 @@ namespace MovieApp.API.Models.DTOs
         public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public DateTime DateCreated { get; set; }
+        public string DateCreated { get; set; }
+        public string VideoFilePath { get; set; }
         public string Picture { get; set; }
-        public RatingType Rating { get; set; }
+        public decimal Rating { get; set; }
         public AudienceType Audience { get; set; }
         [Required]
         public Guid GenreId { get; set; }

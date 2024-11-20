@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using static MovieApp.API.Models.MovieModel;
 
 namespace MovieApp.API.Models.DTOs
@@ -12,8 +13,9 @@ namespace MovieApp.API.Models.DTOs
         [Required]
         public string Name { get; set; }
         public string Picture { get; set; }
-        public RatingType Rating { get; set; }
+        public decimal Rating { get; set; }
         public DateTime DateCreated { get; set; }
+        public IFormFile VideoFile { get; set; }
         public AudienceType Audience { get; set; }
         [Required]
         public Guid GenreId { get; set; }
