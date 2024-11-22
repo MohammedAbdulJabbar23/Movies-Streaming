@@ -53,6 +53,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:MovieApp.API.Controllers.MoviesController.SearchMovies(System.String)">
+            <summary>
+            Search movies by keyword
+            </summary>
+            <param name="keyword">The search keyword</param>
+            <returns></returns>
+        </member>
         <member name="M:MovieApp.API.Controllers.MoviesController.GetMovieById(System.Guid)">
             <summary>
             Gets individual Movie from database
@@ -231,6 +238,18 @@
             <inheritdoc />
         </member>
         <member name="M:MovieApp.API.Migrations.FixDate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:MovieApp.API.Migrations.MoviesDescriptionAdded">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.MoviesDescriptionAdded.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.MoviesDescriptionAdded.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.MoviesDescriptionAdded.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

@@ -14,6 +14,7 @@ namespace MovieApp.API.Models
         [Required]
         public string Name { get; set; }
         public string DateCreated { get; set; }
+        public string Description { get; set; }
         public string Picture { get; set; }
         public decimal Rating { get; set; } 
         public string VideoFilePath { get; set; }
@@ -27,6 +28,7 @@ namespace MovieApp.API.Models
         public virtual SubGenreModel SubGenres { get; set; }
         public enum AudienceType { U, PG, TWELVEA, FIFTEEN, EIGHTEEN }
         public AudienceType Audience { get; set; }
+        public List<Comment> Comments { get; set; } = new List<Comment>();
 
     }
 }

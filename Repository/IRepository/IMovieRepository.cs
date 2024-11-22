@@ -11,6 +11,7 @@ namespace MovieApp.API.Repository.IRepository
         ICollection<MovieModel> GetMovie();
         ICollection<MovieModel> GetGenreInMovie(Guid genreId);
         ICollection<MovieModel> GetSubGenreInMovie(Guid subGenreId);
+        public IEnumerable<MovieModel> SearchMovies(string keyword);
         MovieModel GetMovie(Guid id);
         bool MovieExist(string name);
         bool MovieExist(Guid id);

@@ -13,6 +13,7 @@ namespace MovieApp.API.Models.DTOs
         [Required]
         public string Name { get; set; }
         public string DateCreated { get; set; }
+        public string Description { get; set; }
         public string VideoFilePath { get; set; }
         public string Picture { get; set; }
         public decimal Rating { get; set; }

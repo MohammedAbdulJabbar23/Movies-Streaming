@@ -68,6 +68,14 @@ namespace MovieApp.API.Repository
             return Save();
 
         }
+        public IEnumerable<MovieModel> SearchMovies(string keyword)
+        {
+            return _dbContext.Movies
+                    .Where(m => m.Name.ToLower().Contains(keyword.ToLower()) ||
+                    (!string.IsNullOrWhiteSpace(m.Description) &&
+                    m.Description.ToLower().Contains(keyword.ToLower())))
+                .ToList();
+        }
 
         public ICollection<MovieModel> GetSubGenreInMovie(Guid subGenreId)
         {

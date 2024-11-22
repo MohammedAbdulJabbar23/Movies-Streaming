@@ -14,6 +14,7 @@ using MovieApp.API;
 using MovieApp.API.ApplicationOptions;
 using MovieApp.API.Data;
 using MovieApp.API.Models.DTOs.MovieAppMapper;
+using MovieApp.API.Repositories;
 using MovieApp.API.Repository;
 using MovieApp.API.Repository.IRepository;
 using Newtonsoft.Json.Serialization;
@@ -95,6 +96,8 @@ builder.Services.Configure<IISServerOptions>(options =>
 {
     options.MaxRequestBodySize = 5L * 1024 * 1024 * 1024; // 5GB
 });
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddAutoMapper(typeof(MovieMapper), typeof(CommentMapper));
 // Build the app
 var app = builder.Build();
 

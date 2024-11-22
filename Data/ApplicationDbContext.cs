@@ -17,6 +17,7 @@ namespace MovieApp.API.Data
         public DbSet<MovieModel> Movies { get; set; }
         public DbSet<UserModel> Users { get; set; }
 
+        public DbSet<Comment> Comments { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

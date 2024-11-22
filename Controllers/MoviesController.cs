@@ -50,6 +50,32 @@ namespace MovieApp.API.Controllers
 
             return Ok(objDto);
         }
+        /// <summary>
+        /// Search movies by keyword
+        /// </summary>
+        /// <param name="keyword">The search keyword</param>
+        /// <returns></returns>
+        [HttpGet("search")]
+        [ProducesResponseType(200, Type = typeof(List<MoviesDTO>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult SearchMovies([FromQuery] string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                return BadRequest("Keyword cannot be empty.");
+            }
+
+            var filteredMovies = _movieRepo.SearchMovies(keyword);
+            if (!filteredMovies.Any())
+            {
+                return NotFound("No movies match the search criteria.");
+            }
+
+            var movieDtos = filteredMovies.Select(movie => _mapper.Map<MoviesDTO>(movie)).ToList();
+
+            return Ok(movieDtos);
+        }
+
 
         /// <summary>
         /// Gets individual Movie from database
