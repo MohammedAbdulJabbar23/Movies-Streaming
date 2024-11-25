@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Cookies from "js-cookie";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const page = () => {
   const [firstName, setFirstName] = useState("");
@@ -56,132 +56,137 @@ const page = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen text-gray-100">
-      <div className="w-80 bg-gray-800 p-8 rounded-lg">
-        <p className="text-center text-xl font-bold">Register</p>
-        <form className="mt-6" onSubmit={handleFormSubmit}>
-          <div className="flex space-x-4">
-            <div className="mt-1 w-full">
+    <ProtectedRoute allowGuestsOnly>
+      <div className="flex items-center justify-center min-h-screen text-gray-100">
+        <div className="w-80 bg-gray-800 p-8 rounded-lg">
+          <p className="text-center text-xl font-bold">Register</p>
+          <form className="mt-6" onSubmit={handleFormSubmit}>
+            <div className="flex space-x-4">
+              <div className="mt-1 w-full">
+                <label
+                  htmlFor="firstName"
+                  className="block text-gray-400 mb-1 text-sm"
+                >
+                  First Name
+                </label>
+                <input
+                  required
+                  type="text"
+                  name="firstName"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  id="firstName"
+                  className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
+                />
+              </div>
+              <div className="mt-1 w-full">
+                <label
+                  htmlFor="lastName"
+                  className="block text-gray-400 mb-1 text-sm"
+                >
+                  Last Name
+                </label>
+                <input
+                  required
+                  type="text"
+                  name="lastName"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  id="lastName"
+                  className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
+                />
+              </div>
+            </div>
+            <div className="mt-4">
               <label
-                htmlFor="firstName"
+                htmlFor="username"
                 className="block text-gray-400 mb-1 text-sm"
               >
-                First Name
+                Username
               </label>
               <input
                 required
                 type="text"
-                name="firstName"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                id="firstName"
+                name="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                id="username"
                 className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
               />
             </div>
-            <div className="mt-1 w-full">
+            <div className="mt-4">
               <label
-                htmlFor="lastName"
+                htmlFor="email"
                 className="block text-gray-400 mb-1 text-sm"
               >
-                Last Name
+                Email
               </label>
               <input
                 required
-                type="text"
-                name="lastName"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                id="lastName"
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                id="Email"
                 className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
               />
             </div>
-          </div>
-          <div className="mt-4">
-            <label
-              htmlFor="username"
-              className="block text-gray-400 mb-1 text-sm"
-            >
-              Username
-            </label>
-            <input
-              required
-              type="text"
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              id="username"
-              className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
-            />
-          </div>
-          <div className="mt-4">
-            <label htmlFor="email" className="block text-gray-400 mb-1 text-sm">
-              Email
-            </label>
-            <input
-              required
-              type="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              id="Email"
-              className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
-            />
-          </div>
-          <div className="mt-4">
-            <label
-              htmlFor="password"
-              className="block text-gray-400 mb-1 text-sm"
-            >
-              Password
-            </label>
-            <input
-              required
-              type="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              id="password"
-              className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
-            />
-          </div>
-          <div className="mt-4">
-            <label
-              htmlFor="re-password"
-              className="block text-gray-400 mb-1 text-sm"
-            >
-              Re-password
-            </label>
-            <input
-              required
-              type="password"
-              name="re-password"
-              value={rePassword}
-              id="re-password"
-              className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
-              onChange={(e) => setRePassword(e.target.value)}
-            />
-            <div className="flex justify-end text-xs mt-2 text-gray-400">
-              <a href="#" className="hover:underline">
-                Forgot Password?
-              </a>
+            <div className="mt-4">
+              <label
+                htmlFor="password"
+                className="block text-gray-400 mb-1 text-sm"
+              >
+                Password
+              </label>
+              <input
+                required
+                type="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                id="password"
+                className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
+              />
             </div>
-          </div>
-          <button className="w-full bg-purple-500 text-gray-900 mt-6 p-2.5 rounded-md font-semibold">
-            Sign up
-          </button>
-        </form>
+            <div className="mt-4">
+              <label
+                htmlFor="re-password"
+                className="block text-gray-400 mb-1 text-sm"
+              >
+                Re-password
+              </label>
+              <input
+                required
+                type="password"
+                name="re-password"
+                value={rePassword}
+                id="re-password"
+                className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
+                onChange={(e) => setRePassword(e.target.value)}
+              />
+              <div className="flex justify-end text-xs mt-2 text-gray-400">
+                <a href="#" className="hover:underline">
+                  Forgot Password?
+                </a>
+              </div>
+            </div>
+            <button className="w-full bg-purple-500 text-gray-900 mt-6 p-2.5 rounded-md font-semibold">
+              Sign up
+            </button>
+          </form>
 
-        <p className="text-center text-xs text-gray-400 mt-4">
-          Already have an account?
-          <Link href="/login" className="text-gray-100 ml-1 hover:underline">
-            Login
-          </Link>
-        </p>
-        {error && (
-          <p className="text-center text-sm text-red-500 mt-4">{error}</p>
-        )}
+          <p className="text-center text-xs text-gray-400 mt-4">
+            Already have an account?
+            <Link href="/login" className="text-gray-100 ml-1 hover:underline">
+              Login
+            </Link>
+          </p>
+          {error && (
+            <p className="text-center text-sm text-red-500 mt-4">{error}</p>
+          )}
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 };
 

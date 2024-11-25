@@ -4,29 +4,30 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Loader from "./Loader";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, allowGuestsOnly = false }) => {
   const router = useRouter();
-  const [loading, setLoading] = useState(true); // Start with loading set to true
-  const [mounted, setMounted] = useState(false); // Track whether the component has mounted
+  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
-  // Run this effect on mount
   useEffect(() => {
-    setMounted(true); // Component has mounted
+    setMounted(true);
   }, []);
 
   useEffect(() => {
-    // Prevents router usage on the server-side, and only runs on the client-side
     if (mounted) {
-      const token = Cookies.get("token"); // Check for authentication token in cookies
-      if (!token) {
-        router.push("/login"); // If no token is found, redirect to the login page
+      const token = Cookies.get("token"); // Check for authentication token
+      if (allowGuestsOnly && token) {
+        // Redirect logged-in users if allowGuestsOnly is true
+        router.push("/"); // Redirect to dashboard or homepage
+      } else if (!allowGuestsOnly && !token) {
+        // Redirect unauthenticated users if allowGuestsOnly is false
+        router.push("/login");
       } else {
-        setLoading(false); // If token exists, stop loading
+        setLoading(false); // Stop loading if no redirection is required
       }
     }
-  }, [mounted, router]);
+  }, [mounted, router, allowGuestsOnly]);
 
-  // Show a loading spinner or message while checking for authentication
   if (loading) {
     return (
       <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
@@ -35,7 +36,6 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  // Render the protected content once authentication is complete
   return <>{children}</>;
 };
 
