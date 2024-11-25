@@ -35,6 +35,7 @@ const page = () => {
         setError(null);
         console.log(response);
         Cookies.set("token", response.data.token, { path: "/" });
+        Cookies.set("userName", response.data.userName, { path: "/" });
         router.push("/");
       } else {
         console.log("RESPONSE IS NOT OK ");
