@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 
 const Button = () => {
   const [showSearchBox, setShowSearchBox] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const userId = Cookies.get("userId");
 
   const router = useRouter();
 
@@ -22,10 +24,17 @@ const Button = () => {
     Cookies.remove("userName");
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim() !== "") {
+      router.push(`/search/${encodeURIComponent(searchQuery)}`);
+    }
+    setShowSearchBox(!showSearchBox);
+  };
+
   return (
     <div className="header">
       <div className="button-container">
-        {/* Other buttons */}
         <Link className="button" href="/">
           <svg
             className="icon"
@@ -60,8 +69,9 @@ const Button = () => {
             />
           </svg>
         </button>
+        {/* profile  */}
 
-        <button className="button">
+        <Link className="button" href={`/profile/${userId}`}>
           <svg
             className="icon"
             stroke="currentColor"
@@ -74,7 +84,7 @@ const Button = () => {
           >
             <path d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z" />
           </svg>
-        </button>
+        </Link>
 
         <button className="button">
           <svg
@@ -117,7 +127,14 @@ const Button = () => {
       {/* Conditionally render the search box */}
       {showSearchBox && (
         <div className="search-box-container">
-          <input type="text" placeholder="Search..." className="search-box" />
+          <form onSubmit={handleSearch}>
+            <input
+              type="text"
+              placeholder="Search..."
+              className="search-box"
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </form>
         </div>
       )}
     </div>

@@ -8,7 +8,6 @@ import Cookies from "js-cookie";
 import ProtectedRoute from "../components/ProtectedRoute";
 
 const page = () => {
-  const [toket, setToken] = useState("");
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -34,11 +33,14 @@ const page = () => {
         console.log("Login OK");
         setError(null);
         console.log(response);
-        Cookies.set("token", response.data.token, { path: "/" });
-        Cookies.set("userName", response.data.userName, { path: "/" });
+        Cookies.set("token", response.data.token, { path: "/", expires: 2 });
+        Cookies.set("userName", response.data.userName, {
+          path: "/",
+          expires: 2,
+        });
+        Cookies.set("userId", response.data.id, { path: "/", expires: 2 });
         router.push("/");
       } else {
-        console.log("RESPONSE IS NOT OK ");
         setError("please double-check your credentials");
         setPassword("");
       }

@@ -11,10 +11,12 @@ export default function RootLayout({ children }) {
   // Paths where the header should hide
   const hideHeaderPaths = ["/login", "/register"];
 
-  // Check if the pathname starts with "/movie" for dynamic movie pages
+  // add the dynamic paths that should show the header
   const shouldShowHeader =
     showHeaderPaths.some((path) => pathname.startsWith(path)) ||
-    pathname.startsWith("/movie/");
+    pathname.startsWith("/movie") ||
+    pathname.startsWith("/search");
+
   const shouldHideHeader = hideHeaderPaths.includes(pathname);
 
   // Default to hiding the header if the path isn’t in either list

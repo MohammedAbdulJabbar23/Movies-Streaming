@@ -34,7 +34,10 @@ const CommentForm = ({
 
   return (
     <div>
-      <form onSubmit={(e) => handleAddComment(e)} className="flex gap-5 items-center">
+      <form
+        onSubmit={(e) => handleAddComment(e)}
+        className="flex gap-5 items-center"
+      >
         <input
           type="text"
           className="bg-transparent border p-2 text-sm w-64"
