@@ -16,6 +16,8 @@ namespace MovieApp.API.Data
         public DbSet<SubGenreModel> SubGenres { get; set; }
         public DbSet<MovieModel> Movies { get; set; }
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
+
 
         public DbSet<Comment> Comments { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

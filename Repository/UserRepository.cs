@@ -47,7 +47,8 @@ namespace MovieApp.API.Repository
             {
                 Subject = new ClaimsIdentity(new Claim[] {
             new Claim(ClaimTypes.Name, user.UserId.ToString()),
-            new Claim(ClaimTypes.Role, user.Role)
+            new Claim(ClaimTypes.Role, user.Role),
+            new Claim("userId", user.UserId.ToString()), // Ensure the UserId is valid
         }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(
