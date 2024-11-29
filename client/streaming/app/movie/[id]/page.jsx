@@ -5,6 +5,7 @@ import Loader from "@/app/components/Loader";
 import useFormattedDate from "@/app/hooks/useFormattedDate";
 import ProtectedRoute from "@/app/components/ProtectedRoute";
 import CommentForm from "@/app/components/CommentForm";
+import Link from "next/link";
 
 const MoviePage = ({ params }) => {
   const apiUrl = process.env.NEXT_PUBLIC_NEW_API_URL;
@@ -190,11 +191,14 @@ const MoviePage = ({ params }) => {
                 key={comment.id}
               >
                 <span className="flex items-center gap-4">
-                  <img
-                    src="https://th.bing.com/th/id/OIP.SAcV4rjQCseubnk32USHigHaHx?rs=1&pid=ImgDetMain"
-                    alt="user's pic"
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
+                  <Link href={`/profile/${comment.id}`}>
+                    <img
+                      src="https://th.bing.com/th/id/OIP.SAcV4rjQCseubnk32USHigHaHx?rs=1&pid=ImgDetMain"
+                      alt="user's pic"
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                  </Link>
+
                   <span>
                     <p className="text-xs font-semibold">{comment.userName}</p>
                     <p className="text-sm">{comment.text}</p>

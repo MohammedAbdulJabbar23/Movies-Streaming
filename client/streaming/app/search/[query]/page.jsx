@@ -6,7 +6,7 @@ import axios from "axios";
 import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 const SearchResults = ({ params }) => {
-  const { query } = React.use(params); // Extract the dynamic query parameter
+  const { query } = React.use(params) || {}; // Extract the dynamic query parameter
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -23,7 +23,7 @@ const SearchResults = ({ params }) => {
         const response = await axios.get(
           `${apiUrl}/Movies/search?keyword=${encodeURIComponent(query)}`
         );
-        setResults(response.data);
+        setResults(response?.data);
         console.log(response.data);
       } catch (err) {
         if (err.status === 404) {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./header.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
@@ -9,7 +9,12 @@ import { useRouter } from "next/navigation";
 const Button = () => {
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const userId = Cookies.get("userId");
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const storedUserId = Cookies.get("userId");
+    setUserId(storedUserId || null);
+  }, []);
 
   const router = useRouter();
 

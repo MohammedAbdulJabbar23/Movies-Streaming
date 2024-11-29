@@ -38,6 +38,7 @@ namespace MovieApp.API.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetUser")]
+        [AllowAnonymous]
         [ProducesResponseType(200, Type = typeof(List<UserDTO>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]

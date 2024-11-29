@@ -8,6 +8,7 @@ const CommentForm = ({
   showCommentForm,
   id,
   setComments,
+  comments
 }) => {
   const [commentContent, setCommentContent] = useState("");
   const userName = Cookies.get("userName");
