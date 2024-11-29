@@ -29,6 +29,6 @@ namespace MovieApp.API.Models
         public enum AudienceType { U, PG, TWELVEA, FIFTEEN, EIGHTEEN }
         public AudienceType Audience { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
-
+        public ICollection<Favorite> Favorites { get; set; }
     }
 }

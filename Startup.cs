@@ -45,8 +45,10 @@ builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<ISubGenreRepository, SubGenreRepository>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 builder.Services.AddAutoMapper(typeof(MovieMapper));
-
+builder.Services.AddHttpClient();
+builder.Services.Configure<GeminiSettings>(builder.Configuration.GetSection("OpenAI"));
 // Add Newtonsoft.Json support for JSON serialization
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>

@@ -264,5 +264,17 @@
         <member name="M:MovieApp.API.Migrations.Comments.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:MovieApp.API.Migrations.AddMovies">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.AddMovies.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.AddMovies.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.AddMovies.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>
