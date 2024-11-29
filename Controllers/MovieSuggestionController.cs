@@ -527,14 +527,11 @@ public class MovieSuggestionsController : ControllerBase
             }
         };
 
-        // Serialize the request body to JSON
         var jsonRequestBody = JsonConvert.SerializeObject(requestBody);
         var content = new StringContent(jsonRequestBody, Encoding.UTF8, "application/json");
 
-        // Send the HTTP POST request to Gemini API
         var response = await client.PostAsync(url, content);
 
-        // Handle error if the response is not successful
         if (!response.IsSuccessStatusCode)
         {
             var errorResponse = await response.Content.ReadAsStringAsync();
@@ -619,14 +616,11 @@ public class MovieSuggestionsController : ControllerBase
             }
         };
 
-        // Serialize the request body to JSON
         var jsonRequestBody = JsonConvert.SerializeObject(requestBody);
         var content = new StringContent(jsonRequestBody, Encoding.UTF8, "application/json");
 
-        // Send the HTTP POST request to Gemini API
         var response = await client.PostAsync(url, content);
 
-        // Handle error if the response is not successful
         if (!response.IsSuccessStatusCode)
         {
             var errorResponse = await response.Content.ReadAsStringAsync();
@@ -634,14 +628,12 @@ public class MovieSuggestionsController : ControllerBase
             return StatusCode(500, "Error fetching similar movie suggestions.");
         }
 
-        // Parse the response from Gemini API
         var jsonResponse = await response.Content.ReadAsStringAsync();
         Console.WriteLine(jsonResponse);
         try
         {
             var responseObject = JsonConvert.DeserializeObject<dynamic>(jsonResponse);
 
-            // Extract the raw movie suggestion text (which includes code block)
             var similarMoviesText = responseObject?.candidates?[0]?.content?.parts?[0]?.text?.ToString();
 
             if (string.IsNullOrEmpty(similarMoviesText))
@@ -649,10 +641,8 @@ public class MovieSuggestionsController : ControllerBase
                 return StatusCode(500, "No similar movies returned.");
             }
 
-            // Remove the ```json and ``` from the response text
             similarMoviesText = similarMoviesText.Replace("```json\n", "").Replace("\n```", "");
 
-            // Deserialize the cleaned JSON text into a structured format
             var similarMovies = JsonConvert.DeserializeObject<MovieSimilarSuggestionsResponse>(similarMoviesText);
 
             if (similarMovies == null || similarMovies.SimilarMovies == null)
@@ -660,7 +650,6 @@ public class MovieSuggestionsController : ControllerBase
                 return StatusCode(500, "No similar movies returned.");
             }
 
-            // Return the structured similar movie suggestions
             return Ok(new { suggestions = similarMovies.SimilarMovies });
         }
         catch (JsonException ex)
@@ -670,26 +659,22 @@ public class MovieSuggestionsController : ControllerBase
         }
     }
 
-    // Model to capture the movie name for similarity suggestion
     public class MovieNameModel
     {
         public string MovieName { get; set; }
     }
 
-    // Model to capture the user's question for general movie suggestions
     public class UserQuestionModel
     {
         public string Question { get; set; }
     }
 
-    // Model for the response containing movie suggestions
     public class MovieSuggestion
     {
         public string MovieName { get; set; }
         public int ReleaseYear { get; set; }
     }
 
-    // Model for the response containing movie suggestions
     public class MovieSuggestionsResponse
     {
         [JsonProperty("popularMovies")]
