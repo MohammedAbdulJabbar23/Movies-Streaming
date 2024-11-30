@@ -1,6 +1,7 @@
 "use client";
 import "./globals.css";
 import Header from "./components/Header";
+import AiChatButton from "./components/AiChatButton";
 import { usePathname } from "next/navigation";
 
 export default function RootLayout({ children }) {
@@ -10,6 +11,7 @@ export default function RootLayout({ children }) {
   const showHeaderPaths = ["/", "/profile"];
   // Paths where the header should hide
   const hideHeaderPaths = ["/login", "/register"];
+  const chatPagePath = "/ai-chat";
 
   // add the dynamic paths that should show the header
   const shouldShowHeader =
@@ -21,6 +23,8 @@ export default function RootLayout({ children }) {
 
   // Default to hiding the header if the path isn’t in either list
   const showHeader = shouldShowHeader && !shouldHideHeader;
+
+  const shouldShowAiChatButton = showHeader && pathname !== chatPagePath;
 
   return (
     <html lang="en">
@@ -37,6 +41,7 @@ export default function RootLayout({ children }) {
       <body className="bg-[#02111B] font-sans">
         <div className="flex justify-center">
           {showHeader && <Header />} {/* Conditionally render the Header */}
+          {shouldShowAiChatButton && <AiChatButton />}
         </div>
         {children}
       </body>
