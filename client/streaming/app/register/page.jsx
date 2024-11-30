@@ -36,7 +36,6 @@ const page = () => {
 
         if (response.status === 200 || response.status === 201) {
           setError(null);
-          console.log("User registered successfully");
 
           router.push("/login");
         } else {

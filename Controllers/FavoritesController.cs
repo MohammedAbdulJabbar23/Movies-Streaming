@@ -124,4 +124,3 @@ public class UpdateFavoriteRequest
 {
     public string Note { get; set; }
 }
-

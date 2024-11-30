@@ -6,6 +6,7 @@ import useFormattedDate from "@/app/hooks/useFormattedDate";
 import ProtectedRoute from "@/app/components/ProtectedRoute";
 import CommentForm from "@/app/components/CommentForm";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 const MoviePage = ({ params }) => {
   const apiUrl = process.env.NEXT_PUBLIC_NEW_API_URL;
@@ -18,6 +19,15 @@ const MoviePage = ({ params }) => {
   const [videoUrl, setVideoUrl] = useState(""); // Store the video URL for streaming
   const [comments, setComments] = useState([]);
   const [showCommentForm, setShowCommentForm] = useState(false);
+  const [token, setToken] = useState("");
+  const [notification, setNotification] = useState(null);
+
+  useEffect(() => {
+    const userToken = Cookies.get("token");
+    if (userToken) {
+      setToken(userToken);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -92,9 +102,70 @@ const MoviePage = ({ params }) => {
     return <div>No movie details available</div>;
   }
 
+  const autoDismissNotification = () => {
+    setTimeout(() => {
+      setNotification(null);
+    }, 2000); 
+  };
+
+  const handleAddToFavorites = async () => {
+    if (token) {
+      try {
+        const response = await axios.post(
+          `http://localhost:5020/api/Favorites/${movieDetails.id}`,
+          {},
+          {
+            params: {
+              "api-version": 1,
+            },
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          console.log("movie added");
+          setNotification({
+            message: "Movie added to favorites!",
+            type: "success",
+          });
+          autoDismissNotification();
+        }
+      } catch (error) {
+        if (error.response?.status === 400) {
+          setNotification({
+            message: "Movie is already in your favorites!",
+            type: "error",
+          });
+        } else {
+          setNotification({
+            message: "An error occurred. Please try again.",
+            type: "error",
+          });
+        }
+        autoDismissNotification();
+        console.log(error);
+      }
+    } else {
+      console.log("no token found");
+    }
+  };
+
   return (
     <ProtectedRoute>
       <div className="relative w-full bg-gradient-to-b from-gray-900 to-black text-white overflow-hidden">
+        {/* Notification Popup */}
+        {notification && (
+          <div
+            className={`fixed top-4 right-4 px-6 py-3 rounded-md text-white text-md shadow-lg z-10 ${
+              notification.type === "success" ? "bg-green-500" : "bg-red-500"
+            }`}
+          >
+            {notification.message}
+          </div>
+        )}
         <div
           className="absolute inset-0 h-[90vh]"
           style={{
@@ -154,6 +225,13 @@ const MoviePage = ({ params }) => {
                 >
                   <i className="fas fa-play mr-2"></i>
                   Play Now
+                </button>
+                <button
+                  onClick={handleAddToFavorites}
+                  className="bg-white text-black px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-lg hover:bg-gray-300 transition-colors duration-300 flex items-center justify-center w-full sm:w-auto"
+                >
+                  <i className="fas fa-heart mr-2"></i>
+                  Add to Favorites
                 </button>
               </div>
             </div>
