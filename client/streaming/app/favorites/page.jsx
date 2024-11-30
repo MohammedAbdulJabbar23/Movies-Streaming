@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const page = () => {
   const apiUrl = "http://localhost:5020/api/Favorites";
@@ -73,57 +74,59 @@ const page = () => {
   };
 
   return (
-    <div>
-      {userFavorites.length === 0 && (
-        <div className="text-2xl font-semibold uppercase h-[100vh] w-full flex justify-center items-center">
-          no favorite movies added
-        </div>
-      )}
+    <ProtectedRoute>
+      <div>
+        {userFavorites.length === 0 && (
+          <div className="text-2xl font-semibold uppercase h-[100vh] w-full flex justify-center items-center">
+            no favorite movies added
+          </div>
+        )}
 
-      {userFavorites.length !== 0 && (
-        <h1 className="text-center text-2xl font-semibold mt-28">
-          Favorite Movies
-        </h1>
-      )}
-      <div className="mt-5">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
-          {userFavorites &&
-            userFavorites.map((movie) => {
-              return (
-                <div
-                  className="relative overflow-hidden shadow-lg cursor-pointer"
-                  key={movie.id}
-                >
-                  {/* X Icon for Removal */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent triggering `handleOpenMovieDetails`
-                      onRemoveFavorite(movie.id); // Replace with your remove logic
-                    }}
-                    className="absolute top-2 right-2  text-white p-1 rounded-lg text-sm bg-black/35 w-7 hover:bg-red-700 transition duration-200"
-                    title="Remove from favorites"
+        {userFavorites.length !== 0 && (
+          <h1 className="text-center text-2xl font-semibold mt-28">
+            Favorite Movies
+          </h1>
+        )}
+        <div className="mt-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
+            {userFavorites &&
+              userFavorites.map((movie) => {
+                return (
+                  <div
+                    className="relative overflow-hidden shadow-lg cursor-pointer"
+                    key={movie.id}
                   >
-                    ✕
-                  </button>
+                    {/* X Icon for Removal */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent triggering `handleOpenMovieDetails`
+                        onRemoveFavorite(movie.id); // Replace with your remove logic
+                      }}
+                      className="absolute top-2 right-2  text-white p-1 rounded-lg text-sm bg-black/35 w-7 hover:bg-red-700 transition duration-200"
+                      title="Remove from favorites"
+                    >
+                      ✕
+                    </button>
 
-                  {/* Movie Poster */}
-                  <img
-                    alt={movie.name}
-                    className="object-cover w-full h-[200px] opacity-100"
-                    src={movie.picture}
-                    onClick={() => handleOpenMovieDetails(movie.id)}
-                  />
+                    {/* Movie Poster */}
+                    <img
+                      alt={movie.name}
+                      className="object-cover w-full h-[200px] opacity-100"
+                      src={movie.picture}
+                      onClick={() => handleOpenMovieDetails(movie.id)}
+                    />
 
-                  {/* Movie Name */}
-                  <div className="absolute bottom-1 left-1 right-1 bg-black/50 text-white text-center p-2">
-                    <p className="text-sm">{movie.name}</p>
+                    {/* Movie Name */}
+                    <div className="absolute bottom-1 left-1 right-1 bg-black/50 text-white text-center p-2">
+                      <p className="text-sm">{movie.name}</p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+          </div>
         </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 };
 

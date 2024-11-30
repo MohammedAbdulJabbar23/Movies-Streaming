@@ -21,6 +21,7 @@ const MoviePage = ({ params }) => {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [token, setToken] = useState("");
   const [notification, setNotification] = useState(null);
+  const [suggestedMovies, setSuggestedMovies] = useState([]);
 
   useEffect(() => {
     const userToken = Cookies.get("token");
@@ -105,7 +106,7 @@ const MoviePage = ({ params }) => {
   const autoDismissNotification = () => {
     setTimeout(() => {
       setNotification(null);
-    }, 2000); 
+    }, 2000);
   };
 
   const handleAddToFavorites = async () => {
@@ -150,6 +151,25 @@ const MoviePage = ({ params }) => {
       }
     } else {
       console.log("no token found");
+    }
+  };
+
+  const handleSuggestMovies = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5020/api/MovieSuggestions/suggest-similar-movies",
+        {
+          movieName: movieDetails.name,
+        }
+      );
+
+      if (response.status === 200) {
+        setSuggestedMovies(response.data.suggestions);
+        console.log("response is ok");
+        console.log(response.data.suggestions);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -307,6 +327,51 @@ const MoviePage = ({ params }) => {
             </div>
           </div>
         )}
+
+        {/* suggest movies section  */}
+        <div className="w-full m-4">
+          <div className="flex justify-center items-center">
+            <button
+              className="group flex items-center justify-center gap-3 p-4 rounded-full bg-[#1C1A1C] cursor-pointer transition-all  duration-300 ease-in-out hover:bg-gradient-to-t hover:from-[#A47CF3] hover:to-[#683FEA] hover:shadow-[inset_0px_1px_0px_rgba(255,255,255,0.4),inset_0px_-4px_0px_rgba(0,0,0,0.2),0px_0px_0px_4px_rgba(255,255,255,0.2),0px_0px_180px_0px_#9917FF] hover:translate-y-[-2px]"
+              onClick={handleSuggestMovies}
+            >
+              <svg
+                height={24}
+                width={24}
+                fill="#AAAAAA"
+                viewBox="0 0 24 24"
+                data-name="Layer 1"
+                id="Layer_1"
+                className="sparkle transition-all duration-700 ease group-hover:fill-white group-hover:scale-125"
+              >
+                <path d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z" />
+              </svg>
+              <span className="text font-semibold text-[#AAAAAA] text-base duration-300 transition-colors group-hover:text-white">
+                Generate Similar Movies
+              </span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4 mr-8 mt-4">
+            {suggestedMovies &&
+              suggestedMovies.map((movie) => (
+                <div
+                  key={movie.movieName}
+                  className="p-4 border border-gray-300 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                >
+                  <h2 className="text-lg font-semibold text-[#F7F7F9]">
+                    {movie.movieName}
+                  </h2>
+                  <p className="text-sm text-gray-400 mt-2">
+                    {movie.description}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1 font-semibold">
+                    Release Date: {movie.releaseYear}
+                  </p>
+                </div>
+              ))}
+          </div>
+        </div>
       </div>
     </ProtectedRoute>
   );
