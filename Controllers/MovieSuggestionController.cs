@@ -506,17 +506,19 @@ public class MovieSuggestionsController : ControllerBase
                             text = $@"
                                 Suggest popular movies based on the following question: {userQuestion.Question}. 
                                 Ensure that the movie suggestions and their names are returned in the same language as the movie name itself.
-                                Return the results in a structured JSON format with the keys: 'movieName' and 'releaseYear' for each movie.
+                                Return the results in a structured JSON format with the keys: 'movieName', 'releaseYear' and 'description' for each movie.
                                 Example format:
                                 {{
                                     ""popularMovies"": [
                                         {{
                                             ""movieName"": ""Movie Title"",
-                                            ""releaseYear"": 2023
+                                            ""releaseYear"": 2023,
+                                            ""description"": ""Movie Description""
                                         }},
                                         {{
                                             ""movieName"": ""Another Movie"",
-                                            ""releaseYear"": 2022
+                                            ""releaseYear"": 2022,
+                                            ""description"": ""Movie Description""
                                         }}
                                     ]
                                 }}
@@ -595,17 +597,19 @@ public class MovieSuggestionsController : ControllerBase
                             text = $@"
                                 Suggest similar movies to the following movie: {movieNameModel.MovieName}. 
                                 Ensure that the movie suggestions and their names are returned in the same language as the movie name itself.
-                                Return the results in a structured JSON format with the keys: 'movieName' and 'releaseYear' for each similar movie.
+                                Return the results in a structured JSON format with the keys: 'movieName', 'releaseYear' and 'Description' for each similar movie.
                                 Example format:
                                 {{
                                     ""similarMovies"": [
                                         {{
                                             ""movieName"": ""Movie Title"",
-                                            ""releaseYear"": 2023
+                                            ""releaseYear"": 2023,
+                                            ""description"":""Movie Description""
                                         }},
                                         {{
                                             ""movieName"": ""Another Movie"",
-                                            ""releaseYear"": 2022
+                                            ""releaseYear"": 2022,
+                                            ""description"": ""Movie Description""
                                         }}
                                     ]
                                 }}
@@ -673,6 +677,7 @@ public class MovieSuggestionsController : ControllerBase
     {
         public string MovieName { get; set; }
         public int ReleaseYear { get; set; }
+        public string Description { get; set; }
     }
 
     public class MovieSuggestionsResponse
