@@ -1,47 +1,58 @@
-"use client";
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+"use client"; // Ensure this runs client-side
 
-const page = () => {
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import Link from "next/link"; // Import Link from Next.js
+
+const ChatPage = () => {
   const [messages, setMessages] = useState([
     { sender: "ai", text: "Welcome to Teletabiz! How can I help you today?" },
   ]);
   const [userInput, setUserInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
-  const messagesEndRef = useRef(null); // Reference to scroll to the last message
-
-  // Function to handle the message submission
+  // Function to handle message submission
   const handleSendMessage = async (e) => {
-    // Prevent the form from refreshing the page
     e.preventDefault();
 
     if (!userInput.trim()) return;
 
     const userMessage = { sender: "user", text: userInput };
     setMessages((prev) => [...prev, userMessage]);
-    setUserInput(""); // Clear the input field
+    setUserInput(""); // Clear input field
     setIsLoading(true);
 
     try {
       const response = await axios.post(
         "http://localhost:5020/api/MovieSuggestions/suggest-movies",
-        {
-          question: userInput,
-        }
+        { question: userInput }
       );
 
-      console.log(response);
+      let movieSuggestions;
+      if (response.data.suggestions && response.data.suggestions.length > 0) {
+        // If movies are returned, map each suggestion to a clickable Link component
+        movieSuggestions = response.data.suggestions.map((movie) => (
+          <div key={movie.movieId} className="my-1">
+            <Link
+              href={`/movie/${movie.movieId}`} // Link to the movie details page
+              className="cursor-pointer text-blue-500 hover:underline"
+              style={{ color: "#ffffff" }} // Ensure the text color is white for visibility
+            >
+              - {movie.movieName} ({movie.releaseYear})
+            </Link>
+          </div>
+        ));
+      } else {
+        // If no movies are returned, show a message
+        movieSuggestions = (
+          <div className="my-1 text-white">No movies found for your query.</div>
+        );
+      }
 
-      // Map each movie suggestion to a new line
-      const movieSuggestions = response.data.suggestions.map(
-        (movie) => `- ${movie.movieName} (${movie.releaseYear})`
-      );
-
-      // Create an AI message with each movie on a separate line
       const aiMessage = {
         sender: "ai",
-        text: movieSuggestions, // Now storing an array of movie suggestions
+        text: movieSuggestions, // Movie suggestions are JSX elements
       };
 
       setMessages((prev) => [...prev, aiMessage]);
@@ -51,7 +62,7 @@ const page = () => {
         ...prev,
         {
           sender: "ai",
-          text: "Sorry, something went wrong. Please try again later.",
+          text: "No movies were found.",
         },
       ]);
     } finally {
@@ -80,16 +91,17 @@ const page = () => {
             }`}
             style={{
               display: "block", // Ensure the div resizes according to message length
-              maxWidth: "50%", // Limit width to 80% of the container width, adjust as needed
-              whiteSpace: "pre-wrap", // Allow wrapping for long messages (if needed)
+              maxWidth: "50%", // Limit width to 50% of the container width, adjust as needed
+              whiteSpace: "pre-wrap", // Allow wrapping for long messages
               wordWrap: "break-word", // Make sure long words break to fit
             }}
           >
-            {/* If the message is from AI and it's an array, render each item as a separate line */}
+            {/* If the message is from AI and it's an array of JSX elements, render them directly */}
             {Array.isArray(msg.text)
-              ? msg.text.map((line, i) => <p key={i}>{line}</p>)
-              : // For non-array messages (initial message), simply display the text
-                msg.text}
+              ? msg.text
+              : msg.text && typeof msg.text === "string"
+              ? msg.text
+              : null}
           </div>
         ))}
         {isLoading && (
@@ -125,4 +137,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ChatPage;
