@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import AiChatButton from "./components/AiChatButton";
 import { usePathname } from "next/navigation";
+import  UploadMovieButton  from "./components/UploadMovieButton";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -12,6 +13,7 @@ export default function RootLayout({ children }) {
   // Paths where the header should hide
   const hideHeaderPaths = ["/login", "/register"];
   const chatPagePath = "/ai-chat";
+  const uploadMoviePath = '/upload-movie';
 
   // add the dynamic paths that should show the header
   const shouldShowHeader =
@@ -25,6 +27,7 @@ export default function RootLayout({ children }) {
   const showHeader = shouldShowHeader && !shouldHideHeader;
 
   const shouldShowAiChatButton = showHeader && pathname !== chatPagePath;
+  const shouldShowUploadButton = showHeader && pathname !== uploadMoviePath;
 
   return (
     <html lang="en">
@@ -42,6 +45,7 @@ export default function RootLayout({ children }) {
         <div className="flex justify-center">
           {showHeader && <Header />} {/* Conditionally render the Header */}
           {shouldShowAiChatButton && <AiChatButton />}
+          {shouldShowUploadButton && <UploadMovieButton />}
         </div>
         {children}
       </body>
