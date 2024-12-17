@@ -1,4 +1,5 @@
 ﻿using BCrypt.Net;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MovieApp.API.ApplicationOptions;
@@ -11,6 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MovieApp.API.Repository
 {
@@ -130,6 +132,12 @@ namespace MovieApp.API.Repository
 
             _dbContext.Users.Update(userParam);
             _dbContext.SaveChanges();
+        }
+        public async Task<UserModel> GetUserByUsernameAsync(string username)
+        {
+            return await _dbContext.Users
+                                 .Where(u => u.UserName.Equals(username))
+                                 .FirstOrDefaultAsync();
         }
     }
 }

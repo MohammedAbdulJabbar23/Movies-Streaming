@@ -11,12 +11,14 @@ const CommentForm = ({
   comments
 }) => {
   const [commentContent, setCommentContent] = useState("");
-  const userName = Cookies.get("userName");
-
+  const token = Cookies.get("token");
   const handleAddComment = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(`http://localhost:5020/api/Comment`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         userName: userName,
         text: commentContent,
         movieId: id,

@@ -14,5 +14,6 @@ namespace MovieApp.API.Repository.IRepository
         UserModel Create(UserModel user, string password);
         void Update(UserModel user, string password = null);
         void Delete(int id);
+        Task<UserModel> GetUserByUsernameAsync(string username); // New method for search by username
     }
 }

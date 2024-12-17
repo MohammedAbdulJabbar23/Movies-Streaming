@@ -288,5 +288,41 @@
         <member name="M:MovieApp.API.Migrations.Initialmigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:MovieApp.API.Migrations.AddSocialMediaAndComments">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.AddSocialMediaAndComments.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.AddSocialMediaAndComments.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.AddSocialMediaAndComments.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:MovieApp.API.Migrations.ChangeItToInteger">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.ChangeItToInteger.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.ChangeItToInteger.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.ChangeItToInteger.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:MovieApp.API.Migrations.changetoforignkey">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.changetoforignkey.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.changetoforignkey.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.changetoforignkey.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

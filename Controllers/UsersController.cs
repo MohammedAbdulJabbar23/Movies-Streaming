@@ -155,5 +155,15 @@ namespace MovieApp.API.Controllers
             _userRepo.Delete(id);
             return NoContent();
         }
+        [HttpGet("username/{username}")]
+        public async Task<ActionResult<UserModel>> GetUserByUsername(string username)
+        {
+            var user = await _userRepo.GetUserByUsernameAsync(username);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
     }
 }

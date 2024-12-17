@@ -344,8 +344,8 @@ namespace MovieApp.API.Controllers
         public IActionResult GetLatestMovies(int count = 5)
         {
             var latestMovies = _movieRepo.GetMovie()
-                                          .OrderByDescending(m => m.Id)  // Order by Id descending
-                                          .Take(count)                   // Limit the number of results
+                                          .OrderByDescending(m => m.Id) 
+                                          .Take(count)                   
                                           .ToList();
 
             if (latestMovies == null || !latestMovies.Any())

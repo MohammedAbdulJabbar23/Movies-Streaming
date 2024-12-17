@@ -6,8 +6,6 @@ namespace MovieApp.API.Models.DTOs
 {
     public class CommentCreateDTO
     {
-        [Required]
-        public string UserName { get; set; }
 
         [Required]
         public string Text { get; set; }

@@ -12,7 +12,7 @@ namespace MovieApp.API.Repositories
         Task<Comment> GetCommentByIdAsync(int id);  // Get comment by ID
         Task<IEnumerable<Comment>> GetCommentsByMovieIdAsync(Guid movieId);  // Get comments by Movie ID
         Task AddCommentAsync(Comment comment);  // Add a new comment
-        Task UpdateCommentAsync(Comment comment);  // Update an existing comment
-        Task DeleteCommentAsync(int id);  // Delete a comment by ID
+        Task UpdateCommentAsync(int id, int userId, string newText);  // Update an existing comment
+        Task DeleteCommentAsync(int id, int userId);  // Delete a comment by ID
     }
 }
