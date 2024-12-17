@@ -19,6 +19,7 @@ using MovieApp.API.Repository;
 using MovieApp.API.Repository.IRepository;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -76,9 +77,18 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuer = false,
-        ValidateAudience = false
+        ValidateAudience = false,
+        RoleClaimType = ClaimTypes.Role
     };
 });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireRole("Admin"));
+    options.AddPolicy("Auth", policy =>
+        policy.RequireRole("Admin","User","Customer"));
+});
+
 builder.Services.Configure<FormOptions>(options =>
 
 {
@@ -100,6 +110,7 @@ builder.Services.Configure<IISServerOptions>(options =>
 });
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddAutoMapper(typeof(MovieMapper), typeof(CommentMapper));
+builder.Services.AddAuthorization();
 // Build the app
 var app = builder.Build();
 

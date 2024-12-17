@@ -6,7 +6,9 @@ import Link from "next/link"; // Import Link from Next.js
 
 const ChatPage = () => {
   const [messages, setMessages] = useState([
-    { sender: "ai", text: "Welcome to Teletabiz! How can I help you today?" },
+    { sender: "ai", text: "Welcome to Serke!."},
+    { sender: "ai", text: "I'm here to help you with any movie recommendations. On Serke." },
+    {sender: "ai", text: "Please ask about movies only. So i can help"}
   ]);
   const [userInput, setUserInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);

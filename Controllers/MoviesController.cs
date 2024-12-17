@@ -153,13 +153,16 @@ namespace MovieApp.API.Controllers
         /// </summary>
         /// <param name="moviesDto">Movie Data transfer object</param>
         /// <returns></returns>
+        
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
         [ProducesResponseType(201, Type = typeof(List<MoviesDTO>))]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [RequestSizeLimit(50073741824)] // 1 GB limit
+
         public IActionResult CreateMovie([FromForm] MoviesCreateDTO moviesDto)
         {
             if (moviesDto == null)
@@ -228,6 +231,7 @@ namespace MovieApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin")]
         public IActionResult UpdateMovie(Guid moviesId, [FromBody] MoviesUpdateDTO moviesDto)
         {
             if (moviesDto == null || moviesId != moviesDto.Id)
@@ -256,6 +260,8 @@ namespace MovieApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin")]
+
         public IActionResult PartialUpdateMovie(Guid movieId, JsonPatchDocument<MoviesUpdateDTO> patchDoc)
         {
             var movie = _movieRepo.GetMovie(movieId);

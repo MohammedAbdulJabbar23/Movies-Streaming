@@ -9,6 +9,7 @@ using MovieApp.API.Repository.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MovieApp.API.Controllers
@@ -102,6 +103,20 @@ namespace MovieApp.API.Controllers
             }
 
             return Ok();
+        }
+        [HttpGet("UserRole")]
+        [Authorize(Policy = "Auth")]
+        public IActionResult GetUserRole()
+        {
+            // Extract the 'role' claim from the authenticated user's token
+            var roleClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+            Console.WriteLine(roleClaim);
+            if (roleClaim != null)
+            {
+                return Ok(new { role = roleClaim.Value });
+            }
+
+            return Unauthorized(new { message = "Role not found" });
         }
 
 

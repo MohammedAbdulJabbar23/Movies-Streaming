@@ -39,7 +39,7 @@ namespace MovieApp.API.Repository
             // Check if password is correct (using the hashed password)
             if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash)) // Changed from user.Password to user.PasswordHash
                 return null;
-
+            Console.WriteLine(user.Role);
             // Generate JWT Token
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("meowmeowwewewwdawaddasdsnandajsdjadwa");
@@ -47,7 +47,7 @@ namespace MovieApp.API.Repository
             {
                 Subject = new ClaimsIdentity(new Claim[] {
             new Claim(ClaimTypes.Name, user.UserId.ToString()),
-            new Claim(ClaimTypes.Role, user.Role),
+            new Claim("role", user.Role),
             new Claim("userId", user.UserId.ToString()), // Ensure the UserId is valid
         }),
                 Expires = DateTime.UtcNow.AddDays(7),
@@ -74,7 +74,7 @@ namespace MovieApp.API.Repository
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
 
             user.PasswordHash = passwordHash; // Changed from user.Password to user.PasswordHash
-            user.Role = "Customer"; // Default role
+            user.Role = "Admin"; // Default role
 
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
