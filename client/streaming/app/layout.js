@@ -45,7 +45,6 @@ export default function RootLayout({ children }) {
         <div className="flex justify-center">
           {showHeader && <Header />} {/* Conditionally render the Header */}
           {shouldShowAiChatButton && <AiChatButton />}
-          {shouldShowUploadButton && <UploadMovieButton />}
         </div>
         {children}
       </body>

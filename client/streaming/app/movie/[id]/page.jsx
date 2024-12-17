@@ -259,7 +259,7 @@ const MoviePage = ({ params }) => {
 
         {/* comment section */}
 
-        <section className="pt-5 px-10 pb-6 w-[100vw] mt-[20vh] mb-[10vh]">
+        <section className="pt-5 px-10 pb-6 w-[100vw] mt-[40vh] mb-[10vh]">
           <span className="flex justify-between px-10">
             <h1 className="text-2xl font-semibold">Comments</h1>
             {showCommentForm ? (
@@ -377,3 +377,5 @@ const MoviePage = ({ params }) => {
 };
 
 export default MoviePage;
+
+

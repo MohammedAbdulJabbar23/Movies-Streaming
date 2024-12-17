@@ -2,6 +2,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const page = () => {
   const apiUrl = process.env.NEXT_PUBLIC_NEW_API_URL;
@@ -14,9 +15,39 @@ const page = () => {
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0);
   const [file, setFile] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false); // State to track if user is admin
+  const [loading, setLoading] = useState(true); // Loading state for API request
   const router = useRouter();
 
+
   useEffect(() => {
+    const checkUserRole = async () => {
+      try {
+        const token = Cookies.get("token");
+        if (!token) {
+          router.push("/");
+          return;
+        }
+
+        const response = await axios.get(`${apiUrl}/Users/UserRole`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.data.role === "Admin") {
+          setIsAdmin(true);
+        } else {
+          router.push("/unauthorized");
+        }
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+        router.push("/login");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const getGenres = async () => {
       try {
         const response = await axios.get(`${apiUrl}/Genres`);
@@ -39,10 +70,10 @@ const page = () => {
       }
     };
 
+    checkUserRole();
     getGenres();
     getSubGenres();
   }, []);
-
   const handleGenreChange = (e) => {
     setSelectedGenre(e.target.value);
   };
@@ -81,9 +112,12 @@ const page = () => {
     formData.append("SubGenreId", selectedSubGenre);
 
     try {
+
+      const token = Cookies.get("token");
       const response = await axios.post(`${apiUrl}/Movies`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -97,6 +131,14 @@ const page = () => {
       console.log(error);
     }
   };
+    if (loading) {
+      return <div className="text-white text-center mt-20">Loading...</div>;
+    }
+
+    if (!isAdmin) {
+      return null; // Prevents rendering anything if the user isn't an admin
+    }
+
 
   return (
     <div className="mt-24 px-8 min-h-screen">

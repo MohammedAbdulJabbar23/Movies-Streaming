@@ -5,18 +5,58 @@ import "./header.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { UserCircleIcon } from '@heroicons/react/24/outline';  // or 'solid'
 
 const Button = () => {
+  const apiUrl = process.env.NEXT_PUBLIC_NEW_API_URL;
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [userId, setUserId] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false); // State to track if user is admin
+  const [loading, setLoading] = useState(true); // Loading state for API request
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
 
+  const router = useRouter();
+
+  // Fetch the user role and check if the user is logged in
   useEffect(() => {
     const storedUserId = Cookies.get("userId");
     setUserId(storedUserId || null);
-  }, []);
 
-  const router = useRouter();
+    const token = Cookies.get("token");
+
+    if (token) {
+      setIsLoggedIn(true); // User is logged in if token exists
+
+      const checkUserRole = async () => {
+        try {
+          const response = await axios.get(`${apiUrl}/Users/UserRole`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          console.log("User Role Response:", response.data); // Debugging line
+
+          if (response.data.role === "Admin") {
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      checkUserRole();
+    } else {
+      setIsLoggedIn(false); // User is not logged in if token doesn't exist
+      setLoading(false);
+    }
+  }, [apiUrl, router]);
 
   // Toggle search box visibility
   const toggleSearchBox = () => {
@@ -25,8 +65,9 @@ const Button = () => {
 
   const handleLogout = () => {
     Cookies.remove("token");
-    router.push("/login");
+    router.push("/");
     Cookies.remove("userName");
+    setIsLoggedIn(false); // Set login status to false after logout
   };
 
   const handleSearch = (e) => {
@@ -74,59 +115,95 @@ const Button = () => {
             />
           </svg>
         </button>
-        {/* profile  */}
+        {/* Conditionally render profile and favorites buttons if the user is logged in */}
+        {isLoggedIn && (
+          <>
+            <Link className="button" href={`/profile/${userId}`}>
+              <svg
+                className="icon"
+                stroke="currentColor"
+                fill="currentColor"
+                strokeWidth={0}
+                viewBox="0 0 24 24"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z" />
+              </svg>
+            </Link>
 
-        <Link className="button" href={`/profile/${userId}`}>
-          <svg
-            className="icon"
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth={0}
-            viewBox="0 0 24 24"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z" />
-          </svg>
-        </Link>
+            <Link className="button" href="/favorites">
+              <svg
+                className="icon"
+                stroke="currentColor"
+                fill="none"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            </Link>
+          </>
+        )}
 
-        <Link className="button" href="/favorites">
-          <svg
-            className="icon"
-            stroke="currentColor"
-            fill="none"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-          </svg>
-        </Link>
-        <button onClick={handleLogout} className="button" title="Logout">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 9V5.25a2.25 2.25 0 00-2.25-2.25h-6a2.25 2.25 0 00-2.25 2.25v13.5a2.25 2.25 0 002.25 2.25h6a2.25 2.25 0 002.25-2.25V15"
-            />
+        {/* Conditionally render the "Upload Movie" button if the user is an admin and logged in */}
+        {!loading && isAdmin && isLoggedIn && (
+          <Link className="button" href="/upload-movie" title="Upload Movie">
+            <svg
+              className="icon"
+              stroke="currentColor"
+              fill="none"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              height="1.5em"  // You can adjust the size
+              width="1.5em"   // You can adjust the size
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4v12m8-8H4"
+              />
+            </svg>
+          </Link>
+        )}
 
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M14 12h5m-1.5-3l3 3-3 3"
-            />
-          </svg>
-        </button>
+        {/* Conditionally render the logout button if the user is logged in */}
+        {isLoggedIn && (
+          <button onClick={handleLogout} className="button" title="Logout">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 9V5.25a2.25 2.25 0 00-2.25-2.25h-6a2.25 2.25 0 00-2.25 2.25v13.5a2.25 2.25 0 002.25 2.25h6a2.25 2.25 0 002.25-2.25V15"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M14 12h5m-1.5-3l3 3-3 3"
+              />
+            </svg>
+          </button>
+        )}
+
+        {/* Conditionally render the login icon if the user is not logged in */}
+        {!isLoggedIn && (
+          <Link className="button" href="/login">
+            <UserCircleIcon className="w-6 h-6" />  {/* Heroicon login icon */}
+          </Link>
+
+        )}
       </div>
 
       {/* Conditionally render the search box */}
@@ -147,3 +224,5 @@ const Button = () => {
 };
 
 export default Button;
+
+

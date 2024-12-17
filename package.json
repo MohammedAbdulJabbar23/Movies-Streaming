@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "flowbite-react": "^0.10.2",
+    "streaming": "file:client/streaming",
     "tailwind-scrollbar": "^3.1.0"
   }
 }
