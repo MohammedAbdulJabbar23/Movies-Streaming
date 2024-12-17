@@ -51,6 +51,7 @@ const MoviePage = ({ params }) => {
         // Format comments with formatted dates before setting state
         if (response.status === 200) {
           setComments(response.data);
+          console.log(response.data);
         }
       } catch (error) {
         setError("Failed to fetch movie comments");
@@ -288,7 +289,7 @@ const MoviePage = ({ params }) => {
                 key={comment.id}
               >
                 <span className="flex items-center gap-4">
-                  <Link href={`/profile/${comment.id}`}>
+                  <Link href={`/profile/${comment.user.userId}`}>
                     <img
                       src="https://th.bing.com/th/id/OIP.SAcV4rjQCseubnk32USHigHaHx?rs=1&pid=ImgDetMain"
                       alt="user's pic"
@@ -297,7 +298,7 @@ const MoviePage = ({ params }) => {
                   </Link>
 
                   <span>
-                    <p className="text-xs font-semibold">{comment.userName}</p>
+                    <p className="text-xs font-semibold">{comment.user.userName}</p>
                     <p className="text-sm">{comment.text}</p>
                   </span>
                 </span>
@@ -377,5 +378,3 @@ const MoviePage = ({ params }) => {
 };
 
 export default MoviePage;
-
-

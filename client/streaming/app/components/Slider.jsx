@@ -10,7 +10,7 @@ const Slider = ({ items = [] }) => {
     }
   };
 
-  console.log(items);
+  // console.log(items);
 
   return (
     <div className="overflow-hidden">

@@ -324,5 +324,17 @@
         <member name="M:MovieApp.API.Migrations.changetoforignkey.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:MovieApp.API.Migrations.Anything">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.Anything.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.Anything.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MovieApp.API.Migrations.Anything.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

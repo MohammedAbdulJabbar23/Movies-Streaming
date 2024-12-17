@@ -14,11 +14,11 @@ const page = () => {
   const [picture, setPicture] = useState("");
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0);
+  const [releaseDate, setReleaseDate] = useState("");
   const [file, setFile] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false); // State to track if user is admin
-  const [loading, setLoading] = useState(true); // Loading state for API request
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
-
 
   useEffect(() => {
     const checkUserRole = async () => {
@@ -74,13 +74,6 @@ const page = () => {
     getGenres();
     getSubGenres();
   }, []);
-  const handleGenreChange = (e) => {
-    setSelectedGenre(e.target.value);
-  };
-
-  const handleSubGenreChange = (e) => {
-    setSelectedSubGenre(e.target.value);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,6 +83,7 @@ const page = () => {
       !description ||
       !picture ||
       !file ||
+      !releaseDate ||
       !selectedGenre ||
       !selectedSubGenre ||
       !rating
@@ -106,13 +100,12 @@ const page = () => {
     formData.append("Picture", picture);
     formData.append("Description", description);
     formData.append("Rating", rating);
-    formData.append("DateCreated", isoString);
     formData.append("VideoFile", file);
     formData.append("GenreId", selectedGenre);
     formData.append("SubGenreId", selectedSubGenre);
+    formData.append("DateCreated", releaseDate);
 
     try {
-
       const token = Cookies.get("token");
       const response = await axios.post(`${apiUrl}/Movies`, formData, {
         headers: {
@@ -120,8 +113,6 @@ const page = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log(response.data);
 
       if (response.status === 201) {
         alert("Movie Added Successfully");
@@ -131,148 +122,142 @@ const page = () => {
       console.log(error);
     }
   };
-    if (loading) {
-      return <div className="text-white text-center mt-20">Loading...</div>;
-    }
 
-    if (!isAdmin) {
-      return null; // Prevents rendering anything if the user isn't an admin
-    }
+  if (loading) {
+    return <div className="text-gray-100 text-center mt-20">Loading...</div>;
+  }
 
+  if (!isAdmin) {
+    return null;
+  }
 
   return (
-    <div className="mt-24 px-8 min-h-screen">
-      <h1 className="text-3xl font-bold text-center text-white mb-8">
-        Upload Movies
-      </h1>
-      <div className="max-w-lg mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
-        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+    <div className="flex items-center justify-center min-h-screen text-gray-100 mt-24">
+      <div className="w-[60vw] bg-gray-800 p-8 rounded-lg">
+        <p className="text-center text-xl font-bold">Upload Movie</p>
+        <form className="mt-6 flex flex-col gap-4" onSubmit={handleSubmit}>
           {/* Movie Name */}
           <div>
-            <label className="block text-gray-200 font-semibold mb-2">
+            <label className="block text-gray-400 mb-1 text-sm">
               Movie Name
             </label>
             <input
               type="text"
-              placeholder="Enter movie name"
+              value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
+              placeholder="Enter movie name"
             />
           </div>
 
-          {/* Movie Picture */}
+          {/* Movie Picture URL */}
           <div>
-            <label className="block text-gray-200 font-semibold mb-2">
-              Movie Picture URL
+            <label className="block text-gray-400 mb-1 text-sm">
+              Picture URL
             </label>
             <input
               type="text"
-              placeholder="Enter movie picture URL"
+              value={picture}
               onChange={(e) => setPicture(e.target.value)}
-              className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
+              placeholder="Enter picture URL"
             />
           </div>
 
           {/* Movie Description */}
           <div>
-            <label className="block text-gray-200 font-semibold mb-2">
-              Movie Description
+            <label className="block text-gray-400 mb-1 text-sm">
+              Description
             </label>
             <input
               type="text"
-              placeholder="Enter movie description"
+              value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
+              placeholder="Enter description"
+            />
+          </div>
+
+          {/* Movie Release Data */}
+
+          <div>
+            <label className="block text-gray-400 mb-1 text-sm">
+              Release Data
+            </label>
+            <input
+              type="text"
+              className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
+              placeholder="Movie Release Date"
+              onChange={(e) => setReleaseDate(e.target.value)}
             />
           </div>
 
           {/* Movie Rating */}
           <div>
-            <label className="block text-gray-200 font-semibold mb-2">
-              Movie Rating
-            </label>
+            <label className="block text-gray-400 mb-1 text-sm">Rating</label>
             <input
               type="number"
-              placeholder="Enter movie rating"
+              value={rating}
               onChange={(e) => setRating(e.target.value)}
-              className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
+              placeholder="Enter rating"
             />
           </div>
 
           {/* Movie File */}
           <div>
-            <label className="block text-gray-200 font-semibold mb-2">
+            <label className="block text-gray-400 mb-1 text-sm">
               Movie File
             </label>
             <input
               type="file"
               onChange={(e) => setFile(e.target.files[0])}
-              className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
             />
           </div>
 
-          {/* Genre Selection */}
+          {/* Genre */}
           <div>
-            <label className="block text-gray-200 font-semibold mb-2">
-              Select Genre
-            </label>
+            <label className="block text-gray-400 mb-1 text-sm">Genre</label>
             <select
-              name="genre"
               value={selectedGenre}
-              onChange={handleGenreChange}
-              className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              onChange={(e) => setSelectedGenre(e.target.value)}
+              className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
             >
-              <option value="" disabled>
-                -- Choose a Genre --
-              </option>
-              {genres.map((genre) => {
-                return (
-                  <option
-                    key={genre.id}
-                    value={genre.id}
-                    className="bg-gray-700 text-white"
-                  >
-                    {genre.name}
-                  </option>
-                );
-              })}
+              <option value="">-- Choose a Genre --</option>
+              {genres.map((genre) => (
+                <option key={genre.id} value={genre.id}>
+                  {genre.name}
+                </option>
+              ))}
             </select>
           </div>
 
-          {/* Sub-Genre Selection */}
+          {/* Sub-Genre */}
           <div>
-            <label className="block text-gray-200 font-semibold mb-2">
-              Select Sub-Genre
+            <label className="block text-gray-400 mb-1 text-sm">
+              Sub-Genre
             </label>
             <select
-              name="sub-genre"
               value={selectedSubGenre}
-              onChange={handleSubGenreChange}
-              className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              onChange={(e) => setSelectedSubGenre(e.target.value)}
+              className="w-full rounded-md border border-gray-700 bg-gray-800 p-2.5 text-gray-100 focus:border-purple-400 outline-none"
             >
-              <option value="" disabled>
-                -- Choose a Sub-Genre --
-              </option>
-              {subGenres.map((sub) => {
-                return (
-                  <option
-                    key={sub.id}
-                    value={sub.id}
-                    className="bg-gray-700 text-white"
-                  >
-                    {sub.name}
-                  </option>
-                );
-              })}
+              <option value="">-- Choose a Sub-Genre --</option>
+              {subGenres.map((sub) => (
+                <option key={sub.id} value={sub.id}>
+                  {sub.name}
+                </option>
+              ))}
             </select>
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="mt-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-purple-500 text-gray-900 mt-4 p-2.5 rounded-md font-semibold"
           >
-            Submit
+            Upload
           </button>
         </form>
       </div>

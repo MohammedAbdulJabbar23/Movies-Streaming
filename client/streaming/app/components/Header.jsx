@@ -6,7 +6,7 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { UserCircleIcon } from '@heroicons/react/24/outline';  // or 'solid'
+import { UserCircleIcon } from "@heroicons/react/24/outline"; // or 'solid'
 
 const Button = () => {
   const apiUrl = process.env.NEXT_PUBLIC_NEW_API_URL;
@@ -159,14 +159,14 @@ const Button = () => {
               fill="none"
               strokeWidth="2"
               viewBox="0 0 24 24"
-              height="1.5em"  // You can adjust the size
-              width="1.5em"   // You can adjust the size
+              height="1em" // You can adjust the size
+              width="1em" // You can adjust the size
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M12 4v12m8-8H4"
+                d="M12 5v14m7-7H5"
               />
             </svg>
           </Link>
@@ -200,9 +200,8 @@ const Button = () => {
         {/* Conditionally render the login icon if the user is not logged in */}
         {!isLoggedIn && (
           <Link className="button" href="/login">
-            <UserCircleIcon className="w-6 h-6" />  {/* Heroicon login icon */}
+            <UserCircleIcon className="w-6 h-6" /> {/* Heroicon login icon */}
           </Link>
-
         )}
       </div>
 
@@ -224,5 +223,3 @@ const Button = () => {
 };
 
 export default Button;
-
-

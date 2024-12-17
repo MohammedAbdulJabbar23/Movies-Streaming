@@ -8,21 +8,36 @@ const CommentForm = ({
   showCommentForm,
   id,
   setComments,
-  comments
+  comments,
 }) => {
   const [commentContent, setCommentContent] = useState("");
   const token = Cookies.get("token");
+  console.log(token);
+
+  const userName = Cookies.get("userName");
   const handleAddComment = async (e) => {
     e.preventDefault();
+
+    const token = Cookies.get("token"); // Assuming you are using cookies to store the token
+
+    if (!token) {
+      console.log("No token found");
+      return; // Optionally handle the case when there is no token
+    }
+
     try {
-      const response = await axios.post(`http://localhost:5020/api/Comment`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.post(
+        `http://localhost:5020/api/Comment`,
+        {
+          text: commentContent,
+          movieId: id,
         },
-        userName: userName,
-        text: commentContent,
-        movieId: id,
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.status === 201 || response.status === 200) {
         const newComment = response.data;
@@ -31,7 +46,7 @@ const CommentForm = ({
         setCommentContent("");
       }
     } catch (error) {
-      console.log(error);
+      console.log("API Error:", error.response || error.message);
     }
   };
 

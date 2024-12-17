@@ -40,6 +40,7 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         />
+      
       </head>
       <body className="bg-[#02111B] font-sans">
         <div className="flex justify-center">
