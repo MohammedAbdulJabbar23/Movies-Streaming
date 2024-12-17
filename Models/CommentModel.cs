@@ -11,5 +11,3 @@ public sealed class Comment
     public string Text { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
-
-//api key= 

@@ -153,7 +153,7 @@ namespace MovieApp.API.Controllers
         /// </summary>
         /// <param name="moviesDto">Movie Data transfer object</param>
         /// <returns></returns>
-        
+
         [HttpPost]
         [Authorize(Policy = "AdminOnly")]
         [ProducesResponseType(201, Type = typeof(List<MoviesDTO>))]
@@ -231,7 +231,7 @@ namespace MovieApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "AdminOnly")]
         public IActionResult UpdateMovie(Guid moviesId, [FromBody] MoviesUpdateDTO moviesDto)
         {
             if (moviesDto == null || moviesId != moviesDto.Id)
@@ -260,7 +260,7 @@ namespace MovieApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "AdminOnly")]
 
         public IActionResult PartialUpdateMovie(Guid movieId, JsonPatchDocument<MoviesUpdateDTO> patchDoc)
         {
@@ -340,6 +340,36 @@ namespace MovieApp.API.Controllers
             // Return a FileStreamResult for streaming
             return File(fileStream, contentType, Path.GetFileName(filePath));
         }
+        [HttpGet("latest")]
+        public IActionResult GetLatestMovies(int count = 5)
+        {
+            var latestMovies = _movieRepo.GetMovie()
+                                          .OrderByDescending(m => m.Id)  // Order by Id descending
+                                          .Take(count)                   // Limit the number of results
+                                          .ToList();
+
+            if (latestMovies == null || !latestMovies.Any())
+            {
+                return NotFound("No movies found.");
+            }
+
+            var movieDTOs = _mapper.Map<List<MoviesDTO>>(latestMovies);
+            return Ok(movieDTOs);
+        }
+    // Get 5 random movies
+    [HttpGet("random5")]
+    [ProducesResponseType(200, Type = typeof(List<MoviesDTO>))]
+    public IActionResult GetRandomMovies()
+    {
+        var objList = _movieRepo.GetRandomMovies();
+        if (!objList.Any())
+        {
+            return NotFound("No movies found.");
+        }
+
+        var objDto = objList.Select(obj => _mapper.Map<MoviesDTO>(obj)).ToList();
+        return Ok(objDto);
+    }
 
     }
 }

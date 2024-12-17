@@ -19,5 +19,7 @@ namespace MovieApp.API.Repository.IRepository
         bool UpdateMovie(MovieModel model);
         bool DeleteMovie(MovieModel model);
         bool Save();
+
+        ICollection<MovieModel> GetRandomMovies(int count =5);
     }
 }

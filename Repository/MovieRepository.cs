@@ -83,5 +83,18 @@ namespace MovieApp.API.Repository
                 .Include(b => b.SubGenres)
                 .Where(c => c.SubGenreId == subGenreId).ToList();
         }
+
+        public ICollection<MovieModel> GetRandomMovies(int count = 5)
+        {
+            var randomMovies = _dbContext.Movies
+                                         .OrderBy(r => Guid.NewGuid()) // Random ordering
+                                         .Take(count)
+                                         .Include(a => a.Genres)
+                                         .Include(c => c.SubGenres)
+                                         .ToList();
+
+            return randomMovies;
+        }
+
     }
 }
