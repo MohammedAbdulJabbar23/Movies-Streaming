@@ -14,7 +14,18 @@ public class FavoritesController : ControllerBase
     {
         _favoriteRepository = favoriteRepository;
     }
+    [HttpGet("user/{userId}")]
+    public IActionResult GetFavoritesByUserId(int userId)
+    {
+        // Check if the user exists
+        if (!_favoriteRepository.UserExists(userId))
+            return NotFound("User not found");
 
+        // Retrieve the list of favorite movies for the given user ID
+        var favorites = _favoriteRepository.GetUserFavorites(userId);
+
+        return Ok(favorites);
+    }
     // Add a movie to favorites
     [HttpPost("{movieId}")]
     [Authorize]
