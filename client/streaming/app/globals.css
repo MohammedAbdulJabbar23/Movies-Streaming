@@ -19,12 +19,27 @@ body {
   background: var(--background);
 }
 
-/* globals.css */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+/* Global scrollbar settings to hide the scrollbars */
+html,
+body {
+  overflow: scroll; /* Allow scrolling, but hide the scrollbar */
 }
 
-.no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+* {
+  -ms-overflow-style: none; /* For IE and Edge */
+  scrollbar-width: none; /* For Firefox */
+}
+
+/* Custom scrollbar for chat container */
+.chat-container {
+  overflow: auto; /* Enable scrolling inside the chat container */
+}
+
+.chat-container::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background: #8a00c2; /* Custom scrollbar color */
+  border-radius: 10px; /* Rounded corners for the scrollbar */
 }

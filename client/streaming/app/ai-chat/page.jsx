@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Link from "next/link"; // Import Link from Next.js
+import "../globals.css";
 
 const ChatPage = () => {
   const [messages, setMessages] = useState([
@@ -80,16 +81,16 @@ const ChatPage = () => {
   }, [messages]);
 
   return (
-    <div className="bg-[#242932] flex flex-col h-[100vh] w-[100vw] pt-24 px-24 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+    <div className="bg-[#242932] chat-container flex flex-col h-[100vh] w-[100vw] pt-24 px-24 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
       {/* Chat Messages */}
-      <div className="flex-grow p-4 overflow-y-auto">
+      <div className="flex-grow p-4 overflow-y-auto chat-container">
         {messages.map((msg, index) => (
           <div
             key={index}
             className={`my-2 p-3 rounded-lg max-w-xs ${
               msg.sender === "ai"
-                ? "bg-blue-500 text-white self-start"
-                : "bg-gray-300 text-black self-end"
+                ? "bg-purple-700 text-white self-start"
+                : "bg-gray-400 text-black self-end"
             }`}
             style={{
               display: "block", // Ensure the div resizes according to message length
@@ -107,7 +108,7 @@ const ChatPage = () => {
           </div>
         ))}
         {isLoading && (
-          <div className="my-2 p-3 bg-blue-300 text-white self-start rounded-lg max-w-xs">
+          <div className="my-2 p-3 bg-purple-500 text-white self-start rounded-lg max-w-xs">
             Typing...
           </div>
         )}
@@ -117,10 +118,7 @@ const ChatPage = () => {
       </div>
 
       {/* Input Box */}
-      <form
-        onSubmit={handleSendMessage}
-        className="flex items-center p-4 border-t"
-      >
+      <form onSubmit={handleSendMessage} className="flex items-center p-4">
         <input
           type="text"
           placeholder="Type your message..."
@@ -130,7 +128,7 @@ const ChatPage = () => {
         />
         <button
           type="submit" // The button is now used to trigger the form submission as well
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          className="bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
         >
           Send
         </button>

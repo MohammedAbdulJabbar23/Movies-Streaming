@@ -10,7 +10,7 @@ const Movie = () => {
 
   const fetchMovies = async () => {
     const response = await axios.get(`${apiUrl}/Movies`);
-    console.log(response.data);
+    // console.log(response.data);
     setMovies(response.data);
   };
 

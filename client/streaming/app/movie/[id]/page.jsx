@@ -154,24 +154,24 @@ const MoviePage = ({ params }) => {
     }
   };
 
-  const handleSuggestMovies = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5020/api/MovieSuggestions/suggest-similar-movies",
-        {
-          movieName: movieDetails.name,
-        }
-      );
+  // const handleSuggestMovies = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:5020/api/MovieSuggestions/suggest-similar-movies",
+  //       {
+  //         movieName: movieDetails.name,
+  //       }
+  //     );
 
-      if (response.status === 200) {
-        setSuggestedMovies(response.data.suggestions);
-        console.log("response is ok");
-        console.log(response.data.suggestions);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     if (response.status === 200) {
+  //       setSuggestedMovies(response.data.suggestions);
+  //       console.log("response is ok");
+  //       console.log(response.data.suggestions);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <ProtectedRoute>
@@ -232,10 +232,9 @@ const MoviePage = ({ params }) => {
                 style={{ maxWidth: "700px" }}
               >
                 <p className="line-clamp-3">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-                  itaque nemo dolorem. Quo, esse voluptates soluta porro et
-                  velit enim repellat, totam temporibus amet tenetur incidunt at
-                  in iste id!
+                  {movieDetails.description
+                    ? movieDetails.description
+                    : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil"}
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
@@ -260,7 +259,7 @@ const MoviePage = ({ params }) => {
 
         {/* comment section */}
 
-        <section className="pt-5 px-10 pb-6 w-[100vw]">
+        <section className="pt-5 px-10 pb-6 w-[100vw] mt-[20vh] mb-[10vh]">
           <span className="flex justify-between px-10">
             <h1 className="text-2xl font-semibold">Comments</h1>
             {showCommentForm ? (
@@ -329,7 +328,7 @@ const MoviePage = ({ params }) => {
         )}
 
         {/* suggest movies section  */}
-        <div className="w-full m-4">
+        {/* <div className="w-full m-4">
           <div className="flex justify-center items-center">
             <button
               className="group flex items-center justify-center gap-3 p-4 rounded-full bg-[#1C1A1C] cursor-pointer transition-all  duration-300 ease-in-out hover:bg-gradient-to-t hover:from-[#A47CF3] hover:to-[#683FEA] hover:shadow-[inset_0px_1px_0px_rgba(255,255,255,0.4),inset_0px_-4px_0px_rgba(0,0,0,0.2),0px_0px_0px_4px_rgba(255,255,255,0.2),0px_0px_180px_0px_#9917FF] hover:translate-y-[-2px]"
@@ -371,7 +370,7 @@ const MoviePage = ({ params }) => {
                 </div>
               ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </ProtectedRoute>
   );

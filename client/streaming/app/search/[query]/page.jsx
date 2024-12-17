@@ -59,7 +59,7 @@ const SearchResults = ({ params }) => {
         )}
         {!error && (
           <h1 className="w-full text-center mt-24 text-3xl font-semibold">
-            Search Result
+            Search Result For: {query}
           </h1>
         )}
         {!loading && !error && results.length > 0 && (

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "flowbite-react": "^0.10.2",
+    "tailwind-scrollbar": "^3.1.0"
+  }
+}
