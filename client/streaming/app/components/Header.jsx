@@ -31,7 +31,7 @@ const Button = () => {
 
       const checkUserRole = async () => {
         try {
-          const response = await axios.get(`${apiUrl}/Users/UserRole`, {
+          const response = await axios.get(`${apiUrl}/v1/Users/UserRole`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

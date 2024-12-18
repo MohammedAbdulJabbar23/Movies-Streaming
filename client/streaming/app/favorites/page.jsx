@@ -7,7 +7,9 @@ import { useRouter } from "next/navigation";
 import ProtectedRoute from "../components/ProtectedRoute";
 
 const page = () => {
-  const apiUrl = "http://localhost:5020/api/Favorites";
+
+  const baseUrl = process.env.NEXT_PUBLIC_NEW_API_URL;
+  const apiUrl = `${baseUrl}/Favorites`;
   const [userFavorites, setUserFavorites] = useState([]);
   const [token, setToken] = useState("");
   const router = useRouter();

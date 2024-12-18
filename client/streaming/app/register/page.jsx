@@ -26,7 +26,7 @@ const page = () => {
 
     if (password === rePassword) {
       try {
-        const response = await axios.post(`${apiUrl}/Users/register`, {
+        const response = await axios.post(`${apiUrl}/v1/Users/register`, {
           firstName: firstName,
           lastName: lastName,
           username: username,

@@ -57,11 +57,6 @@ namespace MovieApp.API.Repositories
                 throw new Exception("Comment not found.");
             }
 
-            if (comment.UserId != userId)  // Check if the current user is the owner
-            {
-                throw new UnauthorizedAccessException("You can only edit your own comments.");
-            }
-
             comment.Text = newText;
             _context.Comments.Update(comment);
             await _context.SaveChangesAsync();
@@ -74,11 +69,6 @@ namespace MovieApp.API.Repositories
             if (comment == null)
             {
                 throw new Exception("Comment not found.");
-            }
-
-            if (comment.UserId != userId)  // Check if the current user is the owner
-            {
-                throw new UnauthorizedAccessException("You can only delete your own comments.");
             }
 
             _context.Comments.Remove(comment);

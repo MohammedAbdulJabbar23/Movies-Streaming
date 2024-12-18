@@ -8,17 +8,14 @@ const CommentForm = ({
   showCommentForm,
   id,
   setComments,
-  comments,
 }) => {
   const [commentContent, setCommentContent] = useState("");
-  const token = Cookies.get("token");
-  console.log(token);
 
-  const userName = Cookies.get("userName");
+  const apiUrl = process.env.NEXT_PUBLIC_NEW_API_URL;
+  const token = Cookies.get("token");
+
   const handleAddComment = async (e) => {
     e.preventDefault();
-
-    const token = Cookies.get("token"); // Assuming you are using cookies to store the token
 
     if (!token) {
       console.log("No token found");
@@ -26,8 +23,9 @@ const CommentForm = ({
     }
 
     try {
-      const response = await axios.post(
-        `http://localhost:5020/api/Comment`,
+      // POST request to create a new comment
+      const postResponse = await axios.post(
+        `${apiUrl}/Comment`,
         {
           text: commentContent,
           movieId: id,
@@ -39,11 +37,27 @@ const CommentForm = ({
         }
       );
 
-      if (response.status === 201 || response.status === 200) {
-        const newComment = response.data;
-        setShowCommentForm(!showCommentForm);
-        setComments((prevComments) => [...prevComments, newComment]);
-        setCommentContent("");
+      if (postResponse.status === 201 || postResponse.status === 200) {
+        const newCommentId = postResponse.data.id; // Extract the ID of the newly created comment
+
+        // GET request to fetch the new comment by ID
+        const getResponse = await axios.get(`${apiUrl}/Comment/${newCommentId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (getResponse.status === 200) {
+          const fetchedComment = getResponse.data;
+          console.log(fetchedComment);
+
+          // Update the comments state with the fetched comment
+          setComments((prevComments) => [...prevComments, fetchedComment]);
+
+          // Reset form state
+          setShowCommentForm(!showCommentForm);
+          setCommentContent("");
+        }
       }
     } catch (error) {
       console.log("API Error:", error.response || error.message);

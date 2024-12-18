@@ -21,7 +21,7 @@ const SearchResults = ({ params }) => {
 
       try {
         const response = await axios.get(
-          `${apiUrl}/Movies/search?keyword=${encodeURIComponent(query)}`
+          `${apiUrl}/v1/Movies/search?keyword=${encodeURIComponent(query)}`
         );
         setResults(response?.data);
         console.log(response.data);

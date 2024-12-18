@@ -14,7 +14,7 @@ const Featured = () => {
   useEffect(() => {
     const fetchLatest = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/Movies/latest?count=5`);
+        const response = await axios.get(`${apiUrl}/v1/Movies/latest?count=5`);
 
         if (response.status === 200) {
           console.log(response.data);

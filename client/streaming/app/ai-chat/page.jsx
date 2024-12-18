@@ -6,6 +6,7 @@ import Link from "next/link"; // Import Link from Next.js
 import "../globals.css";
 
 const ChatPage = () => {
+  const apiUrl = process.env.NEXT_PUBLIC_NEW_API_URL;
   const [messages, setMessages] = useState([
     { sender: "ai", text: "Welcome to Serke!."},
     { sender: "ai", text: "I'm here to help you with any movie recommendations. On Serke." },
@@ -28,7 +29,7 @@ const ChatPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5020/api/MovieSuggestions/suggest-movies",
+        `${apiUrl}/MovieSuggestions/suggest-movies`,
         { question: userInput }
       );
 

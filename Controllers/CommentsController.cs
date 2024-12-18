@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using MovieApp.API.Repository.IRepository;
 
 namespace MovieApp.API.Controllers
 {
@@ -16,6 +17,8 @@ namespace MovieApp.API.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _commentRepository;
+
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
         public CommentController(ICommentRepository commentRepository, IMapper mapper)
@@ -49,20 +52,35 @@ namespace MovieApp.API.Controllers
                 return BadRequest();
             }
 
-            var userIdString = User.FindFirstValue("userId");  // Get the user ID from the JWT token
+            var userIdString = User.FindFirstValue("userId"); // Get the user ID from the JWT token
             if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out var userId))
             {
-                return Unauthorized();  // Return 401 if the user ID is invalid or not found
+                return Unauthorized(); // Return 401 if the user ID is invalid or not found
             }
 
+            // Map the incoming DTO to a Comment entity
             var comment = _mapper.Map<Comment>(commentCreateDTO);
-            comment.UserId = userId;  // Set the UserId as an integer
+            comment.UserId = userId; // Set the UserId
 
+            // Add the comment to the repository
             await _commentRepository.AddCommentAsync(comment);
 
+            // Fetch the user object (assume a repository or service is available for this)
+            var user = _userRepository.GetUserById(userId);
+            if (user == null)
+            {
+                return NotFound("User not found"); // Handle the case where the user doesn't exist
+            }
+
+            // Map the Comment entity to a DTO
             var commentDTO = _mapper.Map<CommentDTO>(comment);
+
+            // Include the user details in the DTO
+            commentDTO.User = _mapper.Map<UserDTO>(user);
+
             return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, commentDTO);
         }
+
 
         // PUT: api/Comment/{id}
         [HttpPut("{id}")]
