@@ -13,7 +13,7 @@ const Page = ({ params }) => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/Users/${id}`);
+        const response = await axios.get(`${apiUrl}/v1/Users/${id}`);
         console.log("User details:", response.data);
         setUserDetails(response.data);
       } catch (error) {
@@ -24,7 +24,7 @@ const Page = ({ params }) => {
     const fetchUserFavorite = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5020/api/Favorites/user/${id}`
+          `${apiUrl}/Favorites/user/${id}`
         );
 
         if (response.status === 200) {

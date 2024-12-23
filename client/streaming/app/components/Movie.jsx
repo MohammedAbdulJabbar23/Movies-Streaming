@@ -9,7 +9,7 @@ const Movie = () => {
   const [movies, setMovies] = useState([]);
 
   const fetchMovies = async () => {
-    const response = await axios.get(`${apiUrl}/Movies`);
+    const response = await axios.get(`${apiUrl}/v1/Movies`);
     // console.log(response.data);
     setMovies(response.data);
   };

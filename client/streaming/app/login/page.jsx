@@ -21,7 +21,7 @@ const page = () => {
 
     try {
       const response = await axios.post(
-        `${apiUrl}/Users/authenticate`,
+        `${apiUrl}/v1/Users/authenticate`,
         {
           username,
           password,

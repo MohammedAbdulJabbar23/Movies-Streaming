@@ -33,7 +33,7 @@ const MoviePage = ({ params }) => {
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/Movies/${id}`);
+        const response = await axios.get(`${apiUrl}/v1/Movies/${id}`);
         setMovieDetails(response.data);
         setLoading(false);
       } catch (error) {
@@ -44,9 +44,12 @@ const MoviePage = ({ params }) => {
 
     const fetchMovieComments = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5020/api/Comment/movie/${id}`
-        );
+        const response = await axios.get(`${apiUrl}/Comment`, {
+          params: {
+            "api-version": 1,
+            movieId: id, // Pass `id` as `movieId` if required
+          },
+        });
 
         // Format comments with formatted dates before setting state
         if (response.status === 200) {
@@ -66,8 +69,13 @@ const MoviePage = ({ params }) => {
   const handlePlayNow = async () => {
     try {
       // Fetch the streaming URL from the backend
-      const response = await axios.get(`${apiUrl}/Movies/stream/${id}`, {
+      const response = await axios.get(`${apiUrl}/v1/Movies/stream/${id}`, {
         responseType: "blob", // Ensure the response is a blob
+      }, {
+        params: {
+          "api-version": 1,
+          movieId: id, // Pass `id` as `movieId` if required
+        }
       });
 
       // Log the response to check the returned data
@@ -114,7 +122,7 @@ const MoviePage = ({ params }) => {
     if (token) {
       try {
         const response = await axios.post(
-          `http://localhost:5020/api/Favorites/${movieDetails.id}`,
+          `${apiUrl}/Favorites/${movieDetails.id}`,
           {},
           {
             params: {
@@ -180,9 +188,8 @@ const MoviePage = ({ params }) => {
         {/* Notification Popup */}
         {notification && (
           <div
-            className={`fixed top-4 right-4 px-6 py-3 rounded-md text-white text-md shadow-lg z-10 ${
-              notification.type === "success" ? "bg-green-500" : "bg-red-500"
-            }`}
+            className={`fixed top-4 right-4 px-6 py-3 rounded-md text-white text-md shadow-lg z-10 ${notification.type === "success" ? "bg-green-500" : "bg-red-500"
+              }`}
           >
             {notification.message}
           </div>

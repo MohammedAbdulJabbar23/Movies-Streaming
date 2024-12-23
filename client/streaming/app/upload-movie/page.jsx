@@ -29,7 +29,7 @@ const page = () => {
           return;
         }
 
-        const response = await axios.get(`${apiUrl}/Users/UserRole`, {
+        const response = await axios.get(`${apiUrl}/v1/Users/UserRole`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -50,7 +50,7 @@ const page = () => {
 
     const getGenres = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/Genres`);
+        const response = await axios.get(`${apiUrl}/v1/Genres`);
         if (response.status === 200) {
           setGenres(response.data);
         }
@@ -61,7 +61,7 @@ const page = () => {
 
     const getSubGenres = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/SubGenres`);
+        const response = await axios.get(`${apiUrl}/v1/SubGenres`);
         if (response.status === 200) {
           setSubGenres(response.data);
         }
@@ -107,7 +107,7 @@ const page = () => {
 
     try {
       const token = Cookies.get("token");
-      const response = await axios.post(`${apiUrl}/Movies`, formData, {
+      const response = await axios.post(`${apiUrl}/v1/Movies`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
