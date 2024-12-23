@@ -76,7 +76,7 @@ namespace MovieApp.API.Repository
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
 
             user.PasswordHash = passwordHash; // Changed from user.Password to user.PasswordHash
-            user.Role = "Admin"; // Default role
+            user.Role = "Customer"; // Default role
 
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();

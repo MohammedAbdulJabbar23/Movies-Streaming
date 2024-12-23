@@ -308,6 +308,7 @@ namespace MovieApp.API.Controllers
         }
         [HttpGet("stream/{movieId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status206PartialContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult StreamMovie(Guid movieId)
         {
@@ -317,7 +318,7 @@ namespace MovieApp.API.Controllers
                 return NotFound();
             }
 
-            var filePath = movie.VideoFilePath; // Assuming the movie file path is stored in the database
+            var filePath = movie.VideoFilePath;
 
             // Ensure the file exists before streaming
             if (!System.IO.File.Exists(filePath))
@@ -325,10 +326,10 @@ namespace MovieApp.API.Controllers
                 return NotFound();
             }
 
-            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            var fileInfo = new FileInfo(filePath);
+            var fileLength = fileInfo.Length;
             var fileExtension = Path.GetExtension(filePath).ToLower();
 
-            // Determine the content type for the video file
             string contentType = fileExtension switch
             {
                 ".mp4" => "video/mp4",
@@ -337,15 +338,53 @@ namespace MovieApp.API.Controllers
                 _ => "application/octet-stream"
             };
 
-            // Return a FileStreamResult for streaming
-            return File(fileStream, contentType, Path.GetFileName(filePath));
+            // Check for Range header
+            var rangeHeader = Request.Headers["Range"].ToString();
+
+            if (string.IsNullOrEmpty(rangeHeader))
+            {
+                // No Range header, return the full file
+                Response.Headers["Accept-Ranges"] = "bytes";
+                Response.ContentLength = fileLength;
+                return PhysicalFile(filePath, contentType);
+            }
+
+            // Parse Range header
+            var range = rangeHeader.Replace("bytes=", "").Split('-');
+            var start = long.Parse(range[0]);
+            var end = range.Length > 1 && !string.IsNullOrEmpty(range[1])
+                ? long.Parse(range[1])
+                : fileLength - 1;
+
+            // Validate range
+            if (start < 0 || end >= fileLength || start > end)
+            {
+                return BadRequest("Invalid range");
+            }
+
+            var contentLength = end - start + 1;
+
+            // Set response headers
+            Response.StatusCode = StatusCodes.Status206PartialContent;
+            Response.Headers["Accept-Ranges"] = "bytes";
+            Response.Headers["Content-Range"] = $"bytes {start}-{end}/{fileLength}";
+            Response.Headers["Content-Length"] = contentLength.ToString();
+            Response.ContentType = contentType;
+
+            // Stream the requested range
+            var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            stream.Seek(start, SeekOrigin.Begin);
+
+            return File(stream, contentType, enableRangeProcessing: true);
         }
+
+
         [HttpGet("latest")]
         public IActionResult GetLatestMovies(int count = 5)
         {
             var latestMovies = _movieRepo.GetMovie()
-                                          .OrderByDescending(m => m.Id) 
-                                          .Take(count)                   
+                                          .OrderByDescending(m => m.Id)
+                                          .Take(count)
                                           .ToList();
 
             if (latestMovies == null || !latestMovies.Any())
@@ -356,20 +395,20 @@ namespace MovieApp.API.Controllers
             var movieDTOs = _mapper.Map<List<MoviesDTO>>(latestMovies);
             return Ok(movieDTOs);
         }
-    // Get 5 random movies
-    [HttpGet("random5")]
-    [ProducesResponseType(200, Type = typeof(List<MoviesDTO>))]
-    public IActionResult GetRandomMovies()
-    {
-        var objList = _movieRepo.GetRandomMovies();
-        if (!objList.Any())
+        // Get 5 random movies
+        [HttpGet("random5")]
+        [ProducesResponseType(200, Type = typeof(List<MoviesDTO>))]
+        public IActionResult GetRandomMovies()
         {
-            return NotFound("No movies found.");
-        }
+            var objList = _movieRepo.GetRandomMovies();
+            if (!objList.Any())
+            {
+                return NotFound("No movies found.");
+            }
 
-        var objDto = objList.Select(obj => _mapper.Map<MoviesDTO>(obj)).ToList();
-        return Ok(objDto);
-    }
+            var objDto = objList.Select(obj => _mapper.Map<MoviesDTO>(obj)).ToList();
+            return Ok(objDto);
+        }
 
     }
 }
