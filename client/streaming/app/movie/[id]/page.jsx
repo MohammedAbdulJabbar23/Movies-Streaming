@@ -289,7 +289,7 @@ const MoviePage = ({ params }) => {
                 key={comment.id}
               >
                 <span className="flex items-center gap-4">
-                  <Link href={`/profile/${comment.user.userId}`}>
+                  <Link href={`/profile/${comment?.user?.userId}`}>
                     <img
                       src="https://th.bing.com/th/id/OIP.SAcV4rjQCseubnk32USHigHaHx?rs=1&pid=ImgDetMain"
                       alt="user's pic"
@@ -298,7 +298,9 @@ const MoviePage = ({ params }) => {
                   </Link>
 
                   <span>
-                    <p className="text-xs font-semibold">{comment.user.userName}</p>
+                    <p className="text-xs font-semibold">
+                      {comment?.user?.userName}
+                    </p>
                     <p className="text-sm">{comment.text}</p>
                   </span>
                 </span>
